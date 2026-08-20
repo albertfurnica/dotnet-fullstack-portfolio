@@ -14,3 +14,19 @@ Content-Type: application/json
 
 ###
 GET {{HostAddress}}/api/movies
+
+###
+PUT {{HostAddress}}/api/movies/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "Inception",
+    "genre": "Sci-Fi",
+    "releaseYear": 2010,
+    "isWatched": true,
+    "rating": 9
+}
+
+###
+DELETE {{HostAddress}}/api/movies/1

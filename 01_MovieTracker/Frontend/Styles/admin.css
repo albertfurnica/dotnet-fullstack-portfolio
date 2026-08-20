@@ -1,0 +1,104 @@
+body { 
+    font-family: Arial, sans-serif; 
+    background-color: #f0f2f5; 
+    margin: 0; 
+    padding: 20px; 
+}
+
+.dashboard-container { 
+    display: flex; 
+    gap: 30px; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+.form-section { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    flex: 1; 
+    height: fit-content; 
+}
+
+.input-group { 
+    margin-bottom: 15px; 
+}
+
+.input-group label { 
+    display: block; 
+    margin-bottom: 5px; 
+    font-weight: bold; 
+    color: #333; 
+}
+
+.input-group input { 
+    width: 90%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+
+.checkbox-group { 
+    margin-bottom: 20px; 
+}
+
+button { 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+
+.btn-save { 
+    background-color: #28a745; 
+    color: white; 
+    width: 100%; 
+    margin-bottom: 10px;}
+
+.btn-save:hover { 
+    background-color: #218838; 
+}
+
+.btn-cancel { 
+    background-color: #6c757d; 
+    color: white; 
+    width: 100%; 
+}
+
+.btn-edit { 
+    background-color: #ffc107;
+     color: black; 
+     margin-right: 5px; 
+}
+
+.btn-delete { 
+    background-color: #dc3545;
+    color: white; 
+}
+
+.list-section { 
+    flex: 2; 
+}
+
+.movie-item { 
+    background: white; 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin-bottom: 10px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.movie-info h3 { 
+    margin: 0 0 5px 0; 
+}
+
+.movie-info p { 
+    margin: 0; 
+    color: #666; 
+    font-size: 0.9em; 
+}
