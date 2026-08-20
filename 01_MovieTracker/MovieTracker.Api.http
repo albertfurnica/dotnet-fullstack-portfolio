@@ -1,0 +1,16 @@
+@HostAddress = http://localhost:5160
+
+###
+POST {{HostAddress}}/api/movies
+Content-Type: application/json
+
+{
+    "title": "Inception",
+    "genre": "Sci-Fi",
+    "releaseYear": 2010,
+    "isWatched": true,
+    "rating": 10
+}
+
+###
+GET {{HostAddress}}/api/movies
