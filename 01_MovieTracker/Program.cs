@@ -15,6 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+var defaultFilesOptions = new DefaultFilesOptions();
+
+defaultFilesOptions.DefaultFileNames.Clear();
+defaultFilesOptions.DefaultFileNames.Add("home.html");
+
+app.UseDefaultFiles(defaultFilesOptions);
+app.UseStaticFiles();
 
 app.UseCors("AllowAll");
 
