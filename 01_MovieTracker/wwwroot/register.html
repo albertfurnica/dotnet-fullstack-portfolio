@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="end">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <Title>MovieTracker-Register</Title>
+        <link rel="stylesheet" href="Styles/register.css">
+    </head>
+    <body>
+        <div class="register-header">
+            <a href="home.html">
+                <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
+            </a>
+        </div>
+        <div class="form-section">
+            <h2>Introduce your credentials:</h2>
+            <input type="hidden" id="userId">
+
+            <div class="input-group">
+                <label>Introduce your first name:</label>
+                <input type="text" id="userFirstName">
+            </div>
+
+            <div class="input-group">
+                <label>Introduce your last name:</label>
+                <input type="text" id="userLastName">
+            </div>
+
+            <div class="input-group">
+                <label>Introduce your email:</label>
+                <input type="text" id="userEmail">
+            </div>
+
+            <div class="input-group">
+                <label>Introduce your password:</label>
+                <input type="password" id="userPassword">
+            </div>
+
+            <button onclick="saveUser()" class="register-btn">Register</button>
+            <div class="login-section">
+                <p>Already an account? <a href="login.html">Sign in!</a></p>
+            </div>
+    <script src="Scripts/register.js"></script>
+    </body>
+</html>
