@@ -12,34 +12,35 @@
                 <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
             </a>
         </div>
-        <div class="form-section">
+        <form id="registerForm" class="form-section">
             <h2>Introduce your credentials:</h2>
             <input type="hidden" id="userId">
 
             <div class="input-group">
                 <label>Introduce your first name:</label>
-                <input type="text" id="userFirstName">
+                <input type="text" id="userFirstName" required pattern="[A-Za-z]+" title="Only letters are allowed!">
             </div>
 
             <div class="input-group">
                 <label>Introduce your last name:</label>
-                <input type="text" id="userLastName">
+                <input type="text" id="userLastName" required pattern="[A-Za-z]+" title="Only letters are allowed!">
             </div>
 
             <div class="input-group">
                 <label>Introduce your email:</label>
-                <input type="text" id="userEmail">
+                <input type="email" id="userEmail" required>
             </div>
 
             <div class="input-group">
                 <label>Introduce your password:</label>
-                <input type="password" id="userPassword">
+                <input type="password" id="userPassword" required minlength="4" title="Password must be at least 8 characters long!">
             </div>
 
-            <button onclick="saveUser()" class="register-btn">Register</button>
+            <button type="submit" class="register-btn">Register</button>
             <div class="login-section">
                 <p>Already an account? <a href="login.html">Sign in!</a></p>
             </div>
+        </form>
     <script src="Scripts/register.js"></script>
     </body>
 </html>
