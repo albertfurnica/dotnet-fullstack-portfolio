@@ -7,47 +7,9 @@
         <link rel="stylesheet" href="Styles/admin.css">
     </head>
     <body>
-        <div class="dashboard-container">
-            <div class="form-section">
-                <h2 id="form-title">Add New Movie</h2>
-                <input type="hidden" id="movieId">
-
-                <div class="input-group">
-                    <label>Title:</label>
-                    <input type="text" id="title" placeholder="e.g. Matrix">
-                </div>
-
-                <div class="input-group">
-                    <label>Genre:</label>
-                    <input type="text" id="genre" placeholder="e.g. Sci-Fi">
-                </div>
-
-                <div class="input-group">
-                    <label>Release Year:</label>
-                    <input type="number" id="releaseYear" placeholder="e.g. 1999">
-                </div>
-
-                <div class="input-group">
-                    <label>Rating(1-5):</label>
-                    <input type="number" id="rating" placeholder="e.g. 5">
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="isWatched">
-                    <label>Has been watched?</label>
-                </div>
-
-                <button onclick="saveMovie()" class="btn-save">Save Movie</button>
-                <button onclick="resetForm()" class="btn-cancel" id="cancelBtn" style="display: none;">
-                    Cancel edit
-                </button>
-            </div>
-            <div class="list-section">
-                <h2>Movies Database</h2>
-                <div id="movie-list">
-
-                </div>
-            </div>
+        <div class="home-header">
+            <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
+            <button onclick="logout()">LOG OUT</button>
         </div>
     <script src="Scripts/admin.js"></script>
     </body>

@@ -23,10 +23,13 @@ document.getElementById("loginForm").addEventListener("submit",
             const result = await response.json();
 
             if(response.ok){
+                localStorage.setItem("userId", result.userId);
+                localStorage.setItem("userName", result.firstName);
+                localStorage.setItem("isAdmin", result.isAdmin);
                 if(result.isAdmin == true)
                     window.location.href="admin.html";
                 else
-                    window.location.href="home.html";
+                    window.location.href="user.html";
             } else {
                 alert(result);
             }

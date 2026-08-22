@@ -40,7 +40,9 @@ public class UsersController(MovieDbContext context) : ControllerBase
         return Ok(new
         {
             Message = "Login succesful!",
-            IsAdmin = user.IsAdmin
-        });
+            IsAdmin = user.IsAdmin,
+            UserId = user.Id,
+            FirstName = user.FirstName 
+    });
     }
 }

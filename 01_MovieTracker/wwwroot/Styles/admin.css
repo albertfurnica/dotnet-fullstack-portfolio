@@ -5,6 +5,34 @@ body {
     padding: 20px; 
 }
 
+.home-header{
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.home-header img{
+    height: 60px;
+}
+
+.home-header h2{
+    color: white;
+    margin-right: 80px;
+}
+
+.home-header button{
+}
+
+
+
+
 .dashboard-container { 
     display: flex; 
     gap: 30px; 
