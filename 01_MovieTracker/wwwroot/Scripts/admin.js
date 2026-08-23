@@ -1,12 +1,6 @@
 const API_URL_MOVIES = "http://localhost:5160/api/movies";
 const API_URL_USERS = "http://localhost:5160/api/users";
 const isAdmin = localStorage.getItem("isAdmin");
-
-if(isAdmin !== "true"){
-    alert("Access is denied!");
-    window.location.href = "home.html";
-}
-
 let editId = null;
 let currentView = "";
 const btnAdd = document.getElementById("btnAdd");
@@ -19,6 +13,11 @@ const modalClose = document.getElementById("closeModal");
 modalClose.addEventListener("click", function(){
     modal.style.display = "none";
 });
+
+if(isAdmin !== "true"){
+    alert("Access is denied!");
+    window.location.href = "home.html";
+}
 
 btnUsers.addEventListener("click", async function() {
     currentView = "users";

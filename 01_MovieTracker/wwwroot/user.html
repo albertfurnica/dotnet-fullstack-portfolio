@@ -3,26 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>USER</title>
+        <title>MovieTracker - My Films</title>
         <link rel="stylesheet" href="Styles/user.css">
     </head>
     <body>
-        <div class="home-header">
+        <header class="user-header">
             <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
-            <H2>Welcome, <span id="userNameDisplay"></span>!</H2>
-            <a href="user_info.html" style="display: block">YOUR ACCOUNT</a>
-            <button onclick="logout()">LOG OUT</button>
-            <input type="search" placeholder="Search..." class="header-search">
-        </div>
-        <div>
-            
-        </div>
+            <div class="user-controls">
+                <H2>Welcome, <span id="userNameDisplay"></span>!</H2>
+                <a href="user_info.html" style="display: block">YOUR ACCOUNT</a>
+                <button onclick="logout()">LOG OUT</button>
+            </div>
+        </header>
+
+        <main class="user-main">
+            <div class="view-filters">
+                <button class="filter-btn active" id="btnWatchlist">Watchlist(To Watch)</button>
+                <button class="filter-btn" id="btnWatched">Films Logged (Watched)</button>
+            </div>
+            <section class="movies-grid" id="moviesGrid">
+                
+            </section>
+        </main>
     <script src="Scripts/user.js"></script>
     </body>
 </html>
-
-
-
-
-
-<script src="Scripts/user.js"></script>
