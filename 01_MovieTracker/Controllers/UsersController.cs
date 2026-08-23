@@ -17,6 +17,22 @@ public class UsersController(MovieDbContext context) : ControllerBase
         return Ok(users);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AdminRegister([FromBody] User _user)
+    {
+        var userExisting = await context.Users.AnyAsync(u => u.Email == _user.Email);
+
+        if (userExisting)
+        {
+            return BadRequest("This email is already used!");
+        }
+
+        context.Users.Add(_user);
+        await context.SaveChangesAsync();
+
+        return Ok("The account has been created succesfully!");
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User _user)
     {

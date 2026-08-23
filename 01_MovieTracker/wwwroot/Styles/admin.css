@@ -1,223 +1,273 @@
-body { 
-    font-family: Arial, sans-serif; 
-    background-color: #f0f2f5; 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
-*{
+* {
     box-sizing: border-box;
 }
 
-.modal{
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 10% auto; 
-    padding: 20px;
-    width: 40%;
-    border-radius: 8px;
-    position: relative;
-}
-
-.close-btn {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.dashboard-layout{
+.dashboard-layout {
     display: grid;
     height: 100vh;
     grid-template-rows: 70px 1fr;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 240px 1fr;
 }
 
-.admin-header{
+.admin-header {
     grid-column: 1 / 3;
     background-color: black;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
 
-.admin-header img{
-    height: 60px;
+.admin-header img {
+    height: 50px;
 }
 
-.admin-header h2{
+.admin-header h2 {
     color: white;
-    margin-right: 80px;
+    font-size: 1.2rem;
+    font-weight: 400;
 }
 
-.admin-header button{
-    color: green;
-    margin-right: 5px;
-}
-
-.admin-leftbar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: solid 2px lightblue;
-}
-
-.admin-leftbar button{
-    border: solid 2px red;
-}
-
-.admin-content{
-    background-color: lightcoral;
-}
-
-
-
-.form-section { 
-    background: white; 
-    padding: 20px; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-    flex: 1; 
-    height: fit-content; 
-}
-
-.input-group { 
-    margin-bottom: 15px; 
-}
-
-.input-group label { 
-    display: block; 
-    margin-bottom: 5px; 
-    font-weight: bold; 
-    color: #333; 
-}
-
-.input-group input { 
-    width: 90%; 
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-}
-
-.checkbox-group { 
-    margin-bottom: 20px; 
-}
-
-button { 
-    padding: 10px 15px; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    font-weight: bold; 
-}
-
-.btn-save { 
-    background-color: #28a745; 
-    color: white; 
-    width: 100%; 
-    margin-bottom: 10px;}
-
-.btn-save:hover { 
-    background-color: #218838; 
-}
-
-.btn-cancel { 
-    background-color: #6c757d; 
-    color: white; 
-    width: 100%; 
-}
-
-.btn-edit { 
-    background-color: #ffc107;
-     color: black; 
-     margin-right: 5px; 
-}
-
-.btn-delete { 
+.admin-header button {
     background-color: #dc3545;
-    color: white; 
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    cursor: pointer;
 }
 
-.list-section { 
-    flex: 2; 
+.admin-header button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
 }
 
-.movie-item { 
-    background: white; 
-    padding: 15px; 
-    border-radius: 8px; 
-    margin-bottom: 10px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
+.admin-leftbar {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 15px;
+    gap: 12px;
+    border-right: 1px solid #e0e0e0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.02);
 }
 
-.movie-info h3 { 
-    margin: 0 0 5px 0; 
-}
-
-.movie-info p { 
-    margin: 0; 
-    color: #666; 
-    font-size: 0.9em; 
-}
-
-/* 1. Spațierea corectă (înlocuitorul pentru <br><br>) */
-.form-group {
-    margin-bottom: 15px;
-}
-
-/* 2. Etichetele (Textul de deasupra căsuței) */
-.form-group label {
-    display: block; /* Forțează textul să stea deasupra input-ului, nu lângă el */
-    margin-bottom: 5px;
-    font-weight: bold;
+.admin-leftbar button {
+    background-color: #e2e5e9;
     color: #333;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
-/* 3. Căsuțele în care tastezi (Inputs) */
+.admin-leftbar button:hover {
+    background-color: rgb(245, 130, 30);
+    color: white;
+    border-color: rgb(245, 130, 30);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    transform: translateX(3px);
+}
+
+.admin-content {
+    padding: 30px;
+    overflow-y: auto;
+    background-color: #f4f7f6;
+}
+
+.list-section h2 {
+    text-align: center;
+    font-size: 35px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.btn-add{
+    background-color: #28a745;
+    color: white;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    height: 45px;
+    width: 150px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-add:hover{
+    background-color: #218838;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    transform: translateY(-1px);
+}
+
+.movie-item {
+    background: white;
+    padding: 18px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eaeaea;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.movie-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.movie-info h3 {
+    margin: 0 0 6px 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.movie-info p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 1.1em;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+    padding: 6px 14px;
+    width: 80px;
+    height: 40px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+    transform: translateY(-4px);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 6px 14px;
+    width: 80px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    transform: translateY(-4px);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 8% auto;
+    padding: 30px;
+    width: 400px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalAppear 0.3s ease;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.9rem;
+}
+
 .form-group input {
-    width: 100%; /* Să se întindă pe toată lățimea modalului */
-    padding: 10px; /* Le face mai "grase" și mai ușor de apăsat */
+    width: 100%;
+    padding: 10px 12px;
     border: 1px solid #ccc;
-    border-radius: 4px; /* Colțuri ușor rotunjite */
-    font-size: 16px;
-    box-sizing: border-box; /* Previne depășirea marginilor */
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* 4. Efectul de Focus (Când dai click în căsuță ca să scrii) */
 .form-group input:focus {
-    border-color: #2196F3; /* Marginea se face albastră */
-    outline: none; /* Ascundem conturul urât dat de browser */
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
 }
 
-/* 5. Butonul de Salvare */
 .btn-save {
-    background-color: #4CAF50; /* Verde modern */
+    background-color: #28a745;
     color: white;
     padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    width: 100%; /* Buton mare, la fel de lat ca formularul */
-    font-size: 16px;
-    font-weight: bold;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
     margin-top: 10px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-/* Efect la trecerea cu mouse-ul peste buton */
 .btn-save:hover {
-    background-color: #45a049;
+    background-color: #218838;
+    transform: translateY(-1px);
 }

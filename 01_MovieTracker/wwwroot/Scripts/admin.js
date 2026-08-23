@@ -7,6 +7,7 @@ if(isAdmin !== "true"){
     window.location.href = "home.html";
 }
 
+let editId = null;
 let currentView = "";
 const btnAdd = document.getElementById("btnAdd");
 const btnUsers = document.getElementById("btnUsers");
@@ -34,7 +35,8 @@ btnMovies.addEventListener("click", async function(){
 });
 
 btnAdd.addEventListener("click", function(){
-    modal.style.display = "block";
+    editId = null;
+    modal.style.display = "inline-block";
 
     if(currentView === "users") {
         modalTitle.innerText = "Add a New User";
@@ -69,6 +71,10 @@ btnAdd.addEventListener("click", function(){
                 <label>Year:</label>
                 <input type="number" id="addMovieYear" required>
             </div>
+            <div class="form-group">
+                <label>Rating:</label>
+                <input type="number" id="addMovieRating" required>
+            </div>
         `;
     }
 });
@@ -93,7 +99,7 @@ async function loadMovies(){
                 <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
             </div>
             <div class="movie-actions">
-                <button class="btn-edit" onclick="prepareEdit(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
+                <button class="btn-edit" onclick="EditMovie(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
                 <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
             </div>
         `;
@@ -125,7 +131,7 @@ async function loadUsers()
                 </div>
                 <div class="movie-actions">
                     <button class="btn-edit">Edit</button>
-                    <button class="btn-detele">Detele</button>
+                    <button class="btn-delete">Delete</button>
                 </div>
             `;
             container.appendChild(card);
@@ -137,43 +143,114 @@ async function loadUsers()
 
 }
 
-async function saveMovie() {
-    const id = document.getElementById("movieId").value;
-    const title = document.getElementById("title").value;
-    const genre = document.getElementById("genre").value;
-    const releaseYear = document.getElementById("releaseYear").value;
-    const rating = document.getElementById("rating").value;
-    const isWatched = document.getElementById("isWatched").checked;
+document.getElementById("addForm").addEventListener("submit",
+    async function(event) {
 
-    const movieData = {
-        title: title,
-        genre: genre,
-        releaseYear: parseInt(releaseYear),
-        rating: parseInt(rating),
-        isWatched: isWatched
-    };
+        event.preventDefault();
 
-    try {
-        if (!id) {
-            await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(movieData)
-            });
-        }
+        try{
+            if(currentView === "users"){
+                const firstName = document.getElementById("addUserFirstName").value;
+                const lastName = document.getElementById("addUserLastName").value;
+                const email = document.getElementById("addUserEmail").value;
 
-        resetForm();
-        loadMovies();
-    } catch (error) {
-        console.error("Error saving movie:", error);
+                const userData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: "password123"
+                };
+
+                const response = await fetch(API_URL_USERS, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userData)
+                });
+
+                if(response.ok){
+                    alert("User successfully added!");
+                    modal.style.display = "none";
+                    loadUsers();
+                } else {
+                    alert("Error: " + (await response.text()));
+                }
+
+            } else if(currentView === "movies"){
+                const title = document.getElementById("addMovieTitle").value;
+                const genre = document.getElementById("addMovieGenre").value;
+                const releaseYear = document.getElementById("addMovieYear").value;
+                const rating = document.getElementById("addMovieRating").value;
+
+                const movieData = {
+                    id: editID ? editId : 0,
+                    title: title,
+                    genre: genre,
+                    releaseYear: parseInt(releaseYear),
+                    rating: rating,
+                    isWatched: false
+                };
+
+                let response;
+                if(editId !== null){
+                    response = await fetch(`${API_URL_MOVIES}/${editId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(movieData)
+                    });
+                } else {
+                    response = await fetch(API_URL_MOVIES, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(movieData)
+                    });
+                }
+
+                if(response.ok){
+                    alert("Movie successfully added!");
+                    modal.style.display = "none";
+                    loadMovies();
+                } else {
+                    alert("Error: " + (await response.text()));
+                }
+            }
+        } catch (error) {
+            console.error("Error saving data: ", error);
+            alert("Error saving data: ", error);
+        } 
     }
-}
+)
 
-/*
+window.EditMovie = async function(id, title, genre, year, rating) {
+    editId = id;
+    currentView = "movies";
+    
+    modal.style.display = "block";
+    modalTitle.innerText = "Edit Movie";
+
+    modalBody.innerHTML = `
+        <div class="form-group">
+            <label>Title:</label>
+            <input type="text" id="addMovieTitle" value="${title}" required>
+        </div>
+        <div class="form-group">
+            <label>Genre:</label>
+            <input type="text" id="addMovieGenre" value="${genre}" required>
+        </div>
+        <div class="form-group">
+            <label>Year:</label>
+            <input type="number" id="addMovieYear" value="${year}" required>
+        </div>
+        <div class="form-group">
+            <label>Rating:</label>
+            <input type="number" id="addMovieRating" value="${rating}" required>
+        </div>
+    `
+};
+
 async function deleteMovie(id) {
     if (confirm("Are you sure you want to delete this movie?")) {
         try {
-            await fetch(`${API_URL}/${id}`, {
+            await fetch(`${API_URL_MOVIES}/${id}`, {
                 method: "DELETE"
             });
             loadMovies();
@@ -186,23 +263,9 @@ async function deleteMovie(id) {
 function prepareEdit(id, title, genre, year, rating, isWatched) {
     document.getElementById("form-title").innerText = "Edit Movie";
     document.getElementById("movieId").value = id;
-    document.getElementById("title").value = title;
-    document.getElementById("genre").value = genre;
-    document.getElementById("releaseYear").value = year;
+
     document.getElementById("rating").value = rating;
     document.getElementById("isWatched").checked = isWatched;
     
     document.getElementById("cancelBtn").style.display = "block";
 }
-
-function resetForm() {
-    document.getElementById("form-title").innerText = "Add New Movie";
-    document.getElementById("movieId").value = "";
-    document.getElementById("title").value = "";
-    document.getElementById("genre").value = "";
-    document.getElementById("releaseYear").value = "";
-    document.getElementById("rating").value = "";
-    document.getElementById("isWatched").checked = false;
-    
-    document.getElementById("cancelBtn").style.display = "none";
-}*/
