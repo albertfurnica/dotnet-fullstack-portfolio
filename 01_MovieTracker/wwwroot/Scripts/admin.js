@@ -1,34 +1,140 @@
-const API_URL = "http://localhost:5160/api/movies";
+const API_URL_MOVIES = "http://localhost:5160/api/movies";
+const API_URL_USERS = "http://localhost:5160/api/users";
+const isAdmin = localStorage.getItem("isAdmin");
 
-document.addEventListener("DOMContentLoaded", loadMovies);
+if(isAdmin !== "true"){
+    alert("Access is denied!");
+    window.location.href = "home.html";
+}
+
+let currentView = "";
+const btnAdd = document.getElementById("btnAdd");
+const btnUsers = document.getElementById("btnUsers");
+const btnMovies = document.getElementById("btnMovies");
+const modal = document.getElementById("addModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalClose = document.getElementById("closeModal");
+modalClose.addEventListener("click", function(){
+    modal.style.display = "none";
+});
+
+btnUsers.addEventListener("click", async function() {
+    currentView = "users";
+    btnAdd.innerHTML = "Add a user";
+    btnAdd.style.display = "inline-block";
+    await loadUsers();
+});
+
+btnMovies.addEventListener("click", async function(){
+    currentView = "movies";
+    btnAdd.innerHTML = "Add a movie";
+    btnAdd.style.display = "inline-block";
+    await loadMovies();
+});
+
+btnAdd.addEventListener("click", function(){
+    modal.style.display = "block";
+
+    if(currentView === "users") {
+        modalTitle.innerText = "Add a New User";
+        modalBody.innerHTML = `
+            <div class="form-group">
+                <label>First Name:</label> 
+                <input type="text" id="addUserFirstName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name:</label>
+                <input type="text" id="addUserLastName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="addUserEmail" required>
+            </div>
+        `;
+    } else if(currentView === "movies") {
+        modalTitle.innerText = "Add a New Movie";
+        modalBody.innerHTML = `
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="addMovieTitle" required>
+            </div>
+            <div class="form-group">
+                <label>Genre:</label>
+                <input type="text" id="addMovieGenre" required>
+            </div>
+            <div class="form-group">
+                <label>Year:</label>
+                <input type="number" id="addMovieYear" required>
+            </div>
+        `;
+    }
+});
 
 async function loadMovies(){
     try{
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL_MOVIES);
         const movies = await response.json();
-        const container = document.getElementById("movie-list");
+        document.getElementById("listTitle").innerText = "Movies Database";
+        document.getElementById("btnAdd").innerText = "Add a movie";
+        const container = document.getElementById("dataList");
+        container.innerHTML = "";
+    
+        movies.forEach(movie => {
+        const watchedStatus = movie.isWatched? "✅ Watched" : "⏳ To Watch"
+
+        const card = document.createElement("li");
+        card.className = "movie-item";
+        card.innerHTML = `
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
+            </div>
+            <div class="movie-actions">
+                <button class="btn-edit" onclick="prepareEdit(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
+                <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
+            </div>
+        `;
+        container.appendChild(card);
+        });
+
+    } catch(error){
+        console.error("Error loading movies:", error);
+    }
+}
+
+async function loadUsers()
+{
+    try{
+        const response = await fetch(API_URL_USERS);
+        const users = await response.json();
+        document.getElementById("listTitle").innerText = "Users Database";
+        document.getElementById("btnAdd").innerText = "Add a user"
+        const container = document.getElementById("dataList");
         container.innerHTML = "";
 
-        movies.forEach(movie => {
-            const watchedStatus = movie.isWatched? "✅ Watched" : "⏳ To Watch"
-
-            const card = document.createElement("div");
+        users.forEach(user => {
+            const card = document.createElement("li");
             card.className = "movie-item";
             card.innerHTML = `
-                <div clas="movie-info">
-                <h3>${movie.title}</h3>
-                p>Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
+                <div class="movie-info">
+                    <h3>${user.firstName} ${user.lastName}</h3>
+                    <p>First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
                 </div>
                 <div class="movie-actions">
-                    <button class="btn-edit" onclick="prepareEdit(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
-                    <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
+                    <button class="btn-edit">Edit</button>
+                    <button class="btn-detele">Detele</button>
                 </div>
             `;
             container.appendChild(card);
         });
+
     } catch(error){
-        console.error("Error loading movies:", error);
+        console.error("Error loading users: ", error);
     }
+
 }
 
 async function saveMovie() {
@@ -54,14 +160,6 @@ async function saveMovie() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(movieData)
             });
-        } 
-        else {
-            movieData.id = parseInt(id);
-            await fetch(`${API_URL}/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(movieData)
-            });
         }
 
         resetForm();
@@ -71,6 +169,7 @@ async function saveMovie() {
     }
 }
 
+/*
 async function deleteMovie(id) {
     if (confirm("Are you sure you want to delete this movie?")) {
         try {
@@ -106,4 +205,4 @@ function resetForm() {
     document.getElementById("isWatched").checked = false;
     
     document.getElementById("cancelBtn").style.display = "none";
-}
+}*/

@@ -10,6 +10,13 @@ namespace MovieTracker.Api.Controllers;
 [Route("api/[controller]")]
 public class UsersController(MovieDbContext context) : ControllerBase
 {
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await context.Users.ToListAsync();
+        return Ok(users);
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User _user)
     {
