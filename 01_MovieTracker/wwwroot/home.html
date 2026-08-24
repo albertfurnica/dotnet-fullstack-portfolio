@@ -3,21 +3,96 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MovieTracker - Home</title>
+        <title>Movie Tracker - Home</title>
         <link rel="stylesheet" href="Styles/home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
-        <div class="home-header">
-            <a href="home.html" class="logo-div">
-                <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
-            </a>
-            <a href="login.html" style="display: block">SIGN IN</a>
-            <a href="register.html" style="display: block;">CREATE ACCOUNT</a>
-            <input type="search" placeholder="Search..." class="header-search">
-        </div>
-        <div>
-            
-        </div>
+        <header class="home-header">
+            <div class="header-container">
+                <a href="home.html" class="logo-div">
+                    <div class="text-logo">MOVIE<br>TRACKER</div>
+                </a>
+                <div class="header-nav">
+                    <a href="login.html">SIGN IN</a>
+                    <a href="register.html">CREATE ACCOUNT</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="hero-section">
+                <div class="hero-background"></div>
+                <h1>Build your digital movie diary.<br>Curate your personal watchlist.<br>Share your cinematic journey.</h1>
+                <a href="register.html" class="btn-get-started">Get started - it's free!</a>
+            </section>
+            <section class="preview-section">
+                <div class="home-movies-grid" id="randomMoviesGrid">
+                    <!--javascript-->
+                </div>
+                <p class="subtitle">A constantly updating selection from our database.</p>
+            </section>
+            <section class="features-section">
+                <h2>Discover New Favorites</h2>
+                <p class="features-title">MOVIETRACKER LETS YOU...</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <p class="feature-text"><strong>Log your cinematic history.</strong> Keep a complete record of every movie you watch, starting whenever you're ready.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <p class="feature-text"><strong>Support what you love.</strong> Show appreciation for your favorite films, custom lists, and community reviews with a simple like.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-align-left"></i>
+                        </div>
+                        <p class="feature-text"><strong>Join the conversation.</strong> Publish your own detailed reviews and follow other film enthusiasts to discover their unique perspectives.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="feature-text"><strong>Express your true opinion.</strong> Score movies out of five stars to quickly capture and share your exact feelings about a film.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <p class="feature-text"><strong>Organize by date.</strong> Maintain a personal digital diary of your viewing habits and easily track your movie milestones over time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-table-cells-large"></i>
+                        </div>
+                        <p class="feature-text"><strong>Curate custom collections.</strong> Build themed movie lists and manage a dedicated personal watchlist for your future movie nights.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="home-footer">
+            <div class="footer-content">
+                    <a href="https://www.facebook.com/furnicaalbert112/" target="_blank">
+                        <i class="fa-brands fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/in/albert-leonard-furnica-b8b7143a0/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i> Linkedin
+                    </a>
+                    <a href="https://github.com/albertfurnica" target="_blank">
+                        <i class="fa-brands fa-github"></i> Github
+                    </a>
+                    <p class="footer-copyright">
+                        &copy; 2026 MovieTracker. Made for film lovers. 
+                        Inspired by <a href="https://letterboxd.com" target="_blank" class="footer-copyright">Letterboxd</a>.
+                    </p>
+            </div>
+        </footer>
     <script src="Scripts/home.js"></script>
     </body>
 </html>
