@@ -71,14 +71,23 @@ body {
     border-radius: 6px;
     font-size: 0.95rem;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-.admin-leftbar button:hover {
+.admin-leftbar button:hover{
+    background-color: rgb(187, 124, 69);
+    color: white;
+    border-color: rgb(246, 155, 76);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    transform: translateX(1px);
+}
+
+.admin-leftbar button.active{
     background-color: rgb(245, 130, 30);
     color: white;
     border-color: rgb(245, 130, 30);
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-    transform: translateX(3px);
+    transform: translateX(5px);
 }
 
 .admin-content {

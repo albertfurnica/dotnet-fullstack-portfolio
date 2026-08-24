@@ -72,7 +72,7 @@ body {
     color: white;
 }
 
-.filter-btn:active{
+.filter-btn.active{
     color: white;
     border-bottom: 3px solid rgb(245, 130, 30);
 }

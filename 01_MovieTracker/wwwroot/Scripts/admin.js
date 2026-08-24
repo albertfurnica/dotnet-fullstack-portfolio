@@ -10,6 +10,9 @@ const modal = document.getElementById("addModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalBody = document.getElementById("modalBody");
 const modalClose = document.getElementById("closeModal");
+const addForm = document.getElementById("addForm");
+const btnLogout = document.getElementById("btnLogout");
+
 modalClose.addEventListener("click", function(){
     modal.style.display = "none";
 });
@@ -20,6 +23,8 @@ if(isAdmin !== "true"){
 }
 
 btnUsers.addEventListener("click", async function() {
+    btnMovies.classList.remove('active');
+    btnUsers.classList.add('active');
     currentView = "users";
     btnAdd.innerHTML = "Add a user";
     btnAdd.style.display = "inline-block";
@@ -27,6 +32,8 @@ btnUsers.addEventListener("click", async function() {
 });
 
 btnMovies.addEventListener("click", async function(){
+    btnMovies.classList.add('active');
+    btnUsers.classList.remove('active');
     currentView = "movies";
     btnAdd.innerHTML = "Add a movie";
     btnAdd.style.display = "inline-block";
@@ -78,71 +85,7 @@ btnAdd.addEventListener("click", function(){
     }
 });
 
-async function loadMovies(){
-    try{
-        const response = await fetch(API_URL_MOVIES);
-        const movies = await response.json();
-        document.getElementById("listTitle").innerText = "Movies Database";
-        document.getElementById("btnAdd").innerText = "Add a movie";
-        const container = document.getElementById("dataList");
-        container.innerHTML = "";
-    
-        movies.forEach(movie => {
-        const watchedStatus = movie.isWatched? "✅ Watched" : "⏳ To Watch"
-
-        const card = document.createElement("li");
-        card.className = "movie-item";
-        card.innerHTML = `
-            <div class="movie-info">
-                <h3>${movie.title}</h3>
-                <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
-            </div>
-            <div class="movie-actions">
-                <button class="btn-edit" onclick="EditMovie(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
-                <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
-            </div>
-        `;
-        container.appendChild(card);
-        });
-
-    } catch(error){
-        console.error("Error loading movies:", error);
-    }
-}
-
-async function loadUsers()
-{
-    try{
-        const response = await fetch(API_URL_USERS);
-        const users = await response.json();
-        document.getElementById("listTitle").innerText = "Users Database";
-        document.getElementById("btnAdd").innerText = "Add a user"
-        const container = document.getElementById("dataList");
-        container.innerHTML = "";
-
-        users.forEach(user => {
-            const card = document.createElement("li");
-            card.className = "movie-item";
-            card.innerHTML = `
-                <div class="movie-info">
-                    <h3>${user.firstName} ${user.lastName}</h3>
-                    <p>First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
-                </div>
-                <div class="movie-actions">
-                    <button class="btn-edit">Edit</button>
-                    <button class="btn-delete">Delete</button>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-
-    } catch(error){
-        console.error("Error loading users: ", error);
-    }
-
-}
-
-document.getElementById("addForm").addEventListener("submit",
+addForm.addEventListener("submit",
     async function(event) {
 
         event.preventDefault();
@@ -219,6 +162,70 @@ document.getElementById("addForm").addEventListener("submit",
     }
 )
 
+async function loadMovies(){
+    try{
+        const response = await fetch(API_URL_MOVIES);
+        const movies = await response.json();
+        document.getElementById("listTitle").innerText = "Movies Database";
+        document.getElementById("btnAdd").innerText = "Add a movie";
+        const container = document.getElementById("dataList");
+        container.innerHTML = "";
+    
+        movies.forEach(movie => {
+        const watchedStatus = movie.isWatched? "✅ Watched" : "⏳ To Watch"
+
+        const card = document.createElement("li");
+        card.className = "movie-item";
+        card.innerHTML = `
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
+            </div>
+            <div class="movie-actions">
+                <button class="btn-edit" onclick="EditMovie(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
+                <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
+            </div>
+        `;
+        container.appendChild(card);
+        });
+
+    } catch(error){
+        console.error("Error loading movies:", error);
+    }
+}
+
+async function loadUsers()
+{
+    try{
+        const response = await fetch(API_URL_USERS);
+        const users = await response.json();
+        document.getElementById("listTitle").innerText = "Users Database";
+        document.getElementById("btnAdd").innerText = "Add a user"
+        const container = document.getElementById("dataList");
+        container.innerHTML = "";
+
+        users.forEach(user => {
+            const card = document.createElement("li");
+            card.className = "movie-item";
+            card.innerHTML = `
+                <div class="movie-info">
+                    <h3>${user.firstName} ${user.lastName}</h3>
+                    <p>First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
+                </div>
+                <div class="movie-actions">
+                    <button class="btn-edit">Edit</button>
+                    <button class="btn-delete">Delete</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+    } catch(error){
+        console.error("Error loading users: ", error);
+    }
+
+}
+
 window.EditMovie = async function(id, title, genre, year, rating) {
     editId = id;
     currentView = "movies";
@@ -268,3 +275,9 @@ function prepareEdit(id, title, genre, year, rating, isWatched) {
     
     document.getElementById("cancelBtn").style.display = "block";
 }
+
+btnLogout.addEventListener("click", function(event) {
+    localStorage.clear();
+    window.location.href = "home.html";
+    alert("Logged out succesfully!");
+})
