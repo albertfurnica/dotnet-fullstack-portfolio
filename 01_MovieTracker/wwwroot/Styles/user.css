@@ -83,6 +83,12 @@ body {
     gap: 25px;
 }
 
+.poster-img {
+    height: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
 .movie-card {
     background-color: rgb(20, 24, 28);
     border-radius: 6px;
@@ -90,7 +96,9 @@ body {
     border: 1px solid rgb(48, 58, 68);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    height: 500px;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
 }
 
 .movie-card:hover {
@@ -102,7 +110,7 @@ body {
 .card-poster {
     background: linear-gradient(135deg, #2b3945, #1c2228);
     height: 280px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,6 +136,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    flex: 1;
 }
 
 .movie-genre {
@@ -153,6 +162,7 @@ body {
     font-weight: bold;
     margin-top: 10px;
     transition: background-color 0.2s ease;
+    margin-top: auto;
 }
 
 .btn-mark-watched:hover {

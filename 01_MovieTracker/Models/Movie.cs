@@ -7,5 +7,7 @@ public class Movie
     public string Genre { get; set; } = string.Empty;
     public int ReleaseYear { get; set; }
     public bool IsWatched { get; set; }
-    public int? Rating{ get; set; }
+    public int? Rating { get; set; }
+
+    public string? PosterUrl { get; set; }
 }

@@ -40,7 +40,8 @@ function renderMovies(){
 
         const cardPoster = document.createElement("div");
         cardPoster.className = "card-poster"
-        cardPoster.innerHTML = `<span class="poster-placeholder">POZA</span>`;
+        const imageSrc = movie.posterUrl ? movie.posterUrl : "Photos/home_logo.jfif";
+        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
 
         const cardInfo = document.createElement("div");
         cardInfo.className = "card-info"
@@ -48,7 +49,7 @@ function renderMovies(){
             <h3 class="movie-title">${movie.title}</h3>
             <span class="movie-year">${movie.releaseYear}</span>
             <p class="movie-genre">${movie.genre}</p>
-            <p class="movie-rating">${movie.rating}</p>
+            <p class="movie-rating">${movie.rating}/100</p>
             <button class="btn-mark-watched" onclick="markWatched(${movie.id})">${watchedStatus}</button>
         `;
 
@@ -91,7 +92,8 @@ async function markWatched(id){
         genre: movieToUpdate.genre,
         releaseYear: movieToUpdate.releaseYear,
         rating: movieToUpdate.rating,
-        isWatched: !movieToUpdate.isWatched
+        isWatched: !movieToUpdate.isWatched,
+        posterUrl: movieToUpdate.posterUrl
     }
 
     try{

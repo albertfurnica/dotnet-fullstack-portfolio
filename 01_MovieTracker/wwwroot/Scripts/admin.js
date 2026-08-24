@@ -66,6 +66,10 @@ btnAdd.addEventListener("click", function(){
         modalTitle.innerText = "Add a New Movie";
         modalBody.innerHTML = `
             <div class="form-group">
+                <label>URL for movie's photo-card</label>
+                <input type="text" id="addPosterUrl" required>
+            </div>
+            <div class="form-group">
                 <label>Title:</label>
                 <input type="text" id="addMovieTitle" required>
             </div>
@@ -122,24 +126,29 @@ addForm.addEventListener("submit",
                 const genre = document.getElementById("addMovieGenre").value;
                 const releaseYear = document.getElementById("addMovieYear").value;
                 const rating = document.getElementById("addMovieRating").value;
+                const posterUrl = document.getElementById("addPosterUrl").value;
 
                 const movieData = {
-                    id: editID ? editId : 0,
+                    id: editId ? editId : 0,
                     title: title,
                     genre: genre,
                     releaseYear: parseInt(releaseYear),
                     rating: rating,
-                    isWatched: false
+                    isWatched: false,
+                    posterUrl: posterUrl
                 };
 
                 let response;
+                let msg = "";
                 if(editId !== null){
+                    msg = "Movie edited successfully!";
                     response = await fetch(`${API_URL_MOVIES}/${editId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(movieData)
                     });
                 } else {
+                    msg = "Movie added succesfully!";
                     response = await fetch(API_URL_MOVIES, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -148,7 +157,7 @@ addForm.addEventListener("submit",
                 }
 
                 if(response.ok){
-                    alert("Movie successfully added!");
+                    alert(msg);
                     modal.style.display = "none";
                     loadMovies();
                 } else {
@@ -157,7 +166,7 @@ addForm.addEventListener("submit",
             }
         } catch (error) {
             console.error("Error saving data: ", error);
-            alert("Error saving data: ", error);
+            alert("Error saving data: " + error);
         } 
     }
 )
@@ -179,10 +188,10 @@ async function loadMovies(){
         card.innerHTML = `
             <div class="movie-info">
                 <h3>${movie.title}</h3>
-                <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'} | ${watchedStatus}</p>
+                <p>Id : ${movie.id} | Genre: ${movie.genre} | Year: ${movie.releaseYear} | Rating: ${movie.rating || 'N/A'}/100 | ${watchedStatus}</p>
             </div>
             <div class="movie-actions">
-                <button class="btn-edit" onclick="EditMovie(${movie.id}, '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
+                <button class="btn-edit" onclick="EditMovie(${movie.id},'${movie.posterUrl || ''}', '${movie.title}', '${movie.genre}', ${movie.releaseYear}, ${movie.rating || 0}, ${movie.isWatched})">Edit</button>
                 <button class="btn-delete" onclick="deleteMovie(${movie.id})">Delete</button>
             </div>
         `;
@@ -226,7 +235,7 @@ async function loadUsers()
 
 }
 
-window.EditMovie = async function(id, title, genre, year, rating) {
+window.EditMovie = async function(id, posterUrl, title, genre, year, rating) {
     editId = id;
     currentView = "movies";
     
@@ -234,6 +243,10 @@ window.EditMovie = async function(id, title, genre, year, rating) {
     modalTitle.innerText = "Edit Movie";
 
     modalBody.innerHTML = `
+        <div class="form-group">
+            <label>URL for movie's photo-card</label>
+            <input type="text" id="addPosterUrl" value="${posterUrl}" required>
+        </div>
         <div class="form-group">
             <label>Title:</label>
             <input type="text" id="addMovieTitle" value="${title}" required>

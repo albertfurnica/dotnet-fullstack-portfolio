@@ -43,6 +43,7 @@ public class MoviesController(MovieDbContext context) : ControllerBase
         existingMovie.ReleaseYear = updatedMovie.ReleaseYear;
         existingMovie.IsWatched = updatedMovie.IsWatched;
         existingMovie.Rating = updatedMovie.Rating;
+        existingMovie.PosterUrl = updatedMovie.PosterUrl;
 
         await context.SaveChangesAsync();
 
