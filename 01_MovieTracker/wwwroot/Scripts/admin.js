@@ -219,7 +219,7 @@ async function loadUsers()
             card.innerHTML = `
                 <div class="movie-info">
                     <h3>${user.firstName} ${user.lastName}</h3>
-                    <p>First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
+                    <p>Id : ${user.id} | First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
                 </div>
                 <div class="movie-actions">
                     <button class="btn-edit">Edit</button>

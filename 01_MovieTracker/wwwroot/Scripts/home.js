@@ -1,17 +1,30 @@
 localStorage.clear();
 
 const API_URL_MOVIES = "http://localhost:5160/api/movies";
+const API_URL_LOGIN = "http://localhost:5160/api/users/login";
+const API_URL_REGISTER = "http://localhost:5160/api/users/register";
+
 const btnSignIn = document.getElementById("btnSignIn");
 const btnRegister = document.getElementById("btnRegister");
+const btnGetStarted = document.getElementById("btnGetStarted");
+
 const modal = document.getElementById("addModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalClose = document.getElementById("closeModal");
-const signInForm = document.getElementById("signInForm");
+const authForm = document.getElementById("authForm");
 const modalBody = document.getElementById("modalBody");
 const closeModal = document.getElementById("closeModal");
 
-closeModal.addEventListener("click", function(){
-    modal.style.display = "none";
+if (closeModal) {
+    closeModal.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+}
+
+window.addEventListener("click", function(event){
+    if(event.target === modal){
+        modal.style.display = "none";
+    }
 })
 
 btnSignIn.addEventListener("click", function(){
@@ -39,7 +52,15 @@ btnSignIn.addEventListener("click", function(){
     `;
 })
 
-btnRegister.addEventListener("click", function(){
+if(btnRegister){
+    btnRegister.addEventListener("click", openRegisterModal);
+}
+
+if(btnGetStarted){
+    btnGetStarted.addEventListener("click", openRegisterModal);
+}
+
+function openRegisterModal(){
     modal.style.display = "flex";
     modalTitle.innerHTML = "Join MovieTracker";
     modalBody.innerHTML = "";
@@ -71,10 +92,77 @@ btnRegister.addEventListener("click", function(){
             </div>
         </footer>
     `;
+}
+
+authForm.addEventListener("submit", async function(event){
+        event.preventDefault();
+
+        const isRegisterMode = document.getElementById("userLastName") !== null;
+
+        try{
+            if(isRegisterMode){
+                const firstname = document.getElementById("userFirstName").value;
+                const lastname = document.getElementById("userLastName").value;
+                const email = document.getElementById("userEmail").value;
+                const password = document.getElementById("userPassword").value;
+
+                const userData = {
+                    firstName: firstname,
+                    lastName: lastname,
+                    Email: email,
+                    Password: password,
+                    isadmin: false
+                };
+
+                const response = await fetch(API_URL_REGISTER, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(userData)
+                });
+
+                const resultMessage = await response.text();
+
+                if(response.ok){
+                    alert(resultMessage);
+                    btnSignIn.click();
+                } else {
+                    alert("Error: " + resultMessage);
+                }
+            } else {
+                const email = document.getElementById("loginEmail").value;
+                const password = document.getElementById("loginPassword").value;
+
+                const loginData = {
+                    email: email,
+                    password: password
+                };
+
+                const response = await fetch(API_URL_LOGIN, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(loginData)
+                });
+
+                const result = await response.json();
+
+                if(response.ok){
+                    localStorage.setItem("userId", result.userId);
+                    localStorage.setItem("userName", result.firstName);
+                    localStorage.setItem("isAdmin", result.isAdmin);
+                    if(result.isAdmin == true)
+                        window.location.href="admin.html";
+                    else
+                        window.location.href="user.html";
+                } else {
+                    const errText = await response.text();
+                    alert("Login failed: " + errText);
+                }
+            }
+        } catch(error){
+            console.error("Error: ", error);
+        }
+
 })
-
-
-
 
 
 

@@ -30,3 +30,18 @@ Content-Type: application/json
 
 ###
 DELETE {{HostAddress}}/api/movies/1
+
+###
+PUT {{HostAddress}}/api/movies/7
+Content-Type: application/json
+
+{
+    "id": 1,
+    "firstName": "apitest",
+    "lastName": "testapi",
+    "email": "apiba",
+    "isAatched": true
+}
+
+###
+DELETE {{HostAddress}}/api/movies/6

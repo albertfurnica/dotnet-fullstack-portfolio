@@ -68,4 +68,45 @@ public class UsersController(MovieDbContext context) : ControllerBase
             FirstName = user.FirstName 
     });
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> EditUser(int id, [FromBody] User updatedUser)
+    {
+        if(id != updatedUser.Id)
+        {
+            return BadRequest();
+        }
+
+        var existingUser = await context.Users.FindAsync(id);
+        if (existingUser == null)
+        {
+            return NotFound();
+        }
+
+        existingUser.LastName = updatedUser.LastName;
+        existingUser.FirstName = updatedUser.FirstName;
+        existingUser.Email = updatedUser.Email;
+        existingUser.IsAdmin = updatedUser.IsAdmin;
+
+        await context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        var user = await context.Users.FindAsync(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+        context.Users.Remove(user);
+        await context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+
 }

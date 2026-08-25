@@ -60,7 +60,7 @@ public class MoviesController(MovieDbContext context) : ControllerBase
         {
             return NotFound();
         }
-            context.Movies.Remove(movie);
+        context.Movies.Remove(movie);
         await context.SaveChangesAsync();
 
         return NoContent();
