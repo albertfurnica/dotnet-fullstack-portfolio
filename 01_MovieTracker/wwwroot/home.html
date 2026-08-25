@@ -7,6 +7,19 @@
         <link rel="stylesheet" href="Styles/home.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
+    <div id="addModal" class="modal" role="dialog" aria-modal="true">
+        <section class="modal-content">
+            <header class="modal-header">
+                <h2 id="modalTitle">Sign In</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </header>
+            <form id="signInForm">
+                <fieldset id="modalBody">
+
+                </fieldset>
+            </form>
+        </section>
+    </div>
     <body>
         <header class="home-header">
             <div class="header-container">
@@ -14,8 +27,8 @@
                     <div class="text-logo">MOVIE<br>TRACKER</div>
                 </a>
                 <div class="header-nav">
-                    <a href="login.html">SIGN IN</a>
-                    <a href="register.html">CREATE ACCOUNT</a>
+                    <a id="btnSignIn">SIGN IN</a>
+                    <a id="btnRegister">CREATE ACCOUNT</a>
                 </div>
             </div>
         </header>
