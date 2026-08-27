@@ -109,12 +109,6 @@ addForm.addEventListener("submit",
                     password: "password123"
                 };
 
-                const response = await fetch(API_URL_USERS, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(userData)
-                });
-
                 let userResponse;
                 let msgU;
                 if(userId !== null){
@@ -169,7 +163,7 @@ addForm.addEventListener("submit",
                     });
                 } else {
                     msg = "Movie added succesfully!";
-                    response = await fetch(API_URL_MOVIES, {
+                    movieResponse = await fetch(API_URL_MOVIES, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(movieData)
@@ -183,7 +177,7 @@ addForm.addEventListener("submit",
                 } else {
                     alert("Error: " + (await movieResponse.text()));
                 }
-            }
+            } 
         } catch (error) {
             console.error("Error saving data: ", error);
             alert("Error saving data: " + error);
@@ -348,5 +342,4 @@ function prepareEdit(id, title, genre, year, rating, isWatched) {
 btnLogout.addEventListener("click", function(event) {
     localStorage.clear();
     window.location.href = "home.html";
-    alert("Logged out succesfully!");
 })

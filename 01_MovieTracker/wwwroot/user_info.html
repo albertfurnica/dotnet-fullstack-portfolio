@@ -1,1 +1,58 @@
-<h1>WORK IN PROGRESS</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MovieTracker - Account Settings</title>
+        <link rel="stylesheet" href="Styles/user_info.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+    <body>
+        <div class="dashboard-layout">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="text-logo">MOVIE<br>TRACKER</div>
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="user.html" class="nav-item">
+                        <i class="fa-solid fa-border-all"></i> Back to Movies
+                    </a>
+                    <a href="#" class="nav-item active">
+                        <i class="fa-solid fa-user"></i> Personal Details
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-gear"></i> Account Settings
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <button id="btnLogout" class="nav-item logout-btn">
+                        <i class="fa-solid fa-power-off"></i> Log Out
+                    </button>
+                </div>
+            </aside>
+            <main class="main-content">
+                <header class="content-header">
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Albert&background=f5821e&color=fff" alt="Avatar" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name" id="userNameDisplay">Albert</span>
+                            <span class="user-role">MovieTracker Member</span>
+                        </div>
+                    </div>
+                </header>
+                <section class="content-section">
+                    <div class="section-header">
+                        <h2>Account Activity</h2>
+                        <a href="#" class="see-all">See all <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                    <div class="history-card">
+                        <div class="history-date">June 28, 2026 (21:50)</div>
+                        <div class="history-action">Marked as Watched</div>
+                        <div class="history-movie">Inception (2010)</div>
+                        <a href="#" class="history-details">DETAILS <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>

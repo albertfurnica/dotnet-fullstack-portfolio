@@ -5,37 +5,52 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin Dashboard - Movie Tracker</title>
         <link rel="stylesheet" href="Styles/admin.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
-    <div id="addModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h2 id="modalTitle">Add Item</h2>
-            <form id="addForm">
-                <div id="modalBody">
-
-                </div>
-                <button type="submit" class="btn-save">Save</button>
-            </form>
-        </div>
-    </div>
     <body>
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <h2 id="modalTitle">Add Item</h2>
+                <form id="addForm">
+                    <div id="modalBody">
+
+                    </div>
+                    <button type="submit" class="btn-save">Save</button>
+                </form>
+            </div>
+        </div>
         <div class="dashboard-layout">
             <header class="admin-header">
             <div class="text-logo">MOVIE<br>TRACKER</div>
             <button id="btnLogout">LOG OUT</button>
             </header>
-            <aside class="admin-leftbar">
-                <button id="btnUsers">See users</button>
-                <button id="btnMovies">See movies</button>
+            <aside class="sidebar">
+                <div class="sidebar-header">MOVIE<br>TRACKER</div>
+                <nav class="sidebar-nav">
+                    <button id="btnUsers">
+                        <i class="fa-solid fa-users"></i> Manage Users
+                    </button>
+                    <button id="btnMovies">
+                        <i class="fa-solid fa-film"></i> Manage Movies
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <button id="btnLogout" class="nav-item logout-btn">
+                        <i class="fa-solid fa-power-off"></i> Log Out
+                    </button>
+                </div>
             </aside>
-            <main class="admin-content">
-                <div class="list-section">
-                    <h2 style="text-align: center;" id="listTitle">Select a database</h2>
-                    <button id="btnAdd" class="btn-add" style="display: none;"></button>
-                    <ul id="dataList">
+            <main class="main-content">
+                <header class="content-header">
+                    <h2 id="listTitle" class="page-title">Select a database</h2>
+                    <button id="btnAdd" class="btn-add" style="display: none;">Add Item</button>
+                </header>
+                <section class="list-section">
+                    <ul id="dataList" class="data-list">
                     
                     </ul>
-                </div>
+                </section>
             </main>
         </div>
     <script src="Scripts/admin.js"></script>

@@ -160,6 +160,36 @@ body {
     border-bottom: 3px solid rgb(245, 130, 30);
 }
 
+.sort-container {
+    display: flex;
+    justify-content: flex-end; /* Împinge textul și dropdown-ul în partea dreaptă */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: rgb(137, 154, 169);
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.sort-dropdown {
+    background-color: rgb(28, 34, 40);
+    color: white;
+    border: 1px solid rgb(51, 60, 70);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.sort-dropdown:focus, 
+.sort-dropdown:hover {
+    border-color: rgb(245, 130, 30);
+}
+
 .movies-grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

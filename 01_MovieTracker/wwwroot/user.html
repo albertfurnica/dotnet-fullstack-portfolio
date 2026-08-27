@@ -12,7 +12,7 @@
             <div class="text-logo">MOVIE<br>TRACKER</div>
             <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="search" placeholder="Search..."></input>
+                <input type="search" id="searchInput" placeholder="Search..."></input>
             </div>
             <div class="user-controls">
                 <H2>Welcome, <span id="userNameDisplay"></span>!</H2>
@@ -20,17 +20,26 @@
                 <button id="btnLogout">LOG OUT</button>
             </div>
         </header>
-
         <main class="user-main">
             <div class="view-filters">
                 <button class="filter-btn active" id="btnWatchlist">Watchlist(To Watch)</button>
                 <button class="filter-btn" id="btnWatched">Films Logged (Watched)</button>
             </div>
+            <div class="sort-container">
+                    <label for="sortMovies"><i class="fa-solid fa-arrow-down-a-z"></i> Sort by:</label>
+                    <select id="sortMovies" class="sort-dropdown">
+                        <option value="title-asc">Title (A - Z)</option>
+                        <option value="title-desc">Title (Z - A)</option>
+                        <option value="year-desc">Year (Newest first)</option>
+                        <option value="year-asc">Year (Oldest first)</option>
+                        <option value="rating-desc">Rating (Highest first)</option>
+                        <option value="rating-asc">Rating (Lowest first)</option>
+                    </select>
+                </div>
             <section class="movies-grid" id="moviesGrid">
                 
             </section>
         </main>
-
         <footer class="home-footer">
             <div class="footer-content">
                     <a href="https://www.facebook.com/furnicaalbert112/" target="_blank">

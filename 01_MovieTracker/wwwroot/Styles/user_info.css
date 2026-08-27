@@ -1,0 +1,196 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(20, 24, 28); 
+    color: #899aa9;
+    margin: 0;
+    min-height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: rgb(28, 34, 40);
+    border-right: 1px solid rgb(44, 52, 64);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-header {
+    padding: 30px;
+}
+
+.text-logo {
+    color: rgb(255, 120, 2);
+    font-family: 'Arial Black', Impact, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -1px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+    color: rgb(137, 154, 169);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    margin-right: 20px;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-item:hover:not(.active) {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    background-color: rgb(245, 130, 30);
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 20px 0;
+    border-top: 1px solid rgb(44, 52, 64);
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 40px 60px;
+    background-color: rgb(20, 24, 28);
+}
+
+.content-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.user-role {
+    font-size: 0.85rem;
+    color: rgb(137, 154, 169);
+}
+
+.content-section {
+    max-width: 1000px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.see-all {
+    color: rgb(245, 130, 30);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.history-card {
+    background-color: white;
+    color: #111;
+    border-radius: 12px;
+    padding: 25px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.history-date {
+    font-weight: 500;
+    color: #555;
+    flex: 1;
+}
+
+.history-action {
+    flex: 1;
+    text-align: center;
+    font-weight: 500;
+}
+
+.history-movie {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.history-details {
+    flex: 0.5;
+    text-align: right;
+    color: rgb(245, 130, 30);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+}

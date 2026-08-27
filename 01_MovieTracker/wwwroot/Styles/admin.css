@@ -1,9 +1,9 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    background-color: rgb(20, 24, 28); 
+    color: #899aa9;
     margin: 0;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
 * {
@@ -11,24 +11,28 @@ body {
 }
 
 .dashboard-layout {
-    display: grid;
-    height: 100vh;
-    grid-template-rows: 70px 1fr;
-    grid-template-columns: 240px 1fr;
-}
-
-.admin-header {
-    grid-column: 1 / 3;
-    background-color: rgba(20, 24, 28, 0.95);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    min-height: 100vh;
 }
 
-.text-logo {
+.sidebar {
+    width: 280px;
+    background-color: rgb(28, 34, 40);
+    border-right: 1px solid rgb(44, 52, 64);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 30px;
+}
+
+.sidebar-header {
     color: rgb(255, 120, 2);
     font-family: 'Arial Black', Impact, sans-serif;
     font-size: 1.7rem;
@@ -37,160 +41,195 @@ body {
     letter-spacing: -1px;
 }
 
-.admin-header h2 {
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 400;
-}
-
-.admin-header button {
-    background-color: #ff0019;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bolder;
+.sidebar-nav button{
+    background-color: transparent;
     border: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    cursor: pointer;
-}
-
-.admin-header button:hover {
-    background-color: #7d020e;
-    transform: translateY(-1px);
-}
-
-.admin-leftbar {
-    background-color: #ffffff;
     display: flex;
-    flex-direction: column;
-    padding: 25px 15px;
-    gap: 12px;
-    border-right: 1px solid #e0e0e0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.02);
-}
-
-.admin-leftbar button {
-    background-color: #e2e5e9;
-    color: #333;
-    border: 1px solid #e0e0e0;
-    text-align: left;
-    padding: 12px 15px;
-    border-radius: 6px;
-    font-size: 0.95rem;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+    color: rgb(137, 154, 169);
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: inherit;
     transition: all 0.2s ease;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    margin-right: 20px; 
     cursor: pointer;
+    width: calc(100% - 20px);
+    text-align: left;
 }
 
-.admin-leftbar button:hover{
-    background-color: rgb(187, 124, 69);
+.sidebar-nav button:hover:not(.active) {
     color: white;
-    border-color: rgb(246, 155, 76);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-    transform: translateX(1px);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.admin-leftbar button.active{
+.sidebar-nav button.active {
     background-color: rgb(245, 130, 30);
     color: white;
-    border-color: rgb(245, 130, 30);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
-    transform: translateX(5px);
 }
 
-.admin-content {
-    padding: 30px;
-    overflow-y: auto;
-    background-color: #f4f7f6;
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
+    flex: 1; 
 }
 
-.list-section h2 {
-    text-align: center;
-    font-size: 35px;
-    color: #333;
-    margin-bottom: 25px;
-}
-
-.btn-add{
-    background-color: #28a745;
-    color: white;
-    margin-bottom: 20px;
-    margin-left: 40px;
-    height: 45px;
-    width: 150px;
-    padding: 10px 20px;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+    color: rgb(137, 154, 169);
+    font-weight: bold;
+    font-size: 1rem;
     transition: all 0.2s ease;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    margin-right: 20px; 
+    cursor: pointer;
+    width: calc(100% - 20px);
+    text-align: left;
 }
 
-.btn-add:hover{
-    background-color: #218838;
-    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
-    transform: translateY(-1px);
+.nav-item i {
+    font-size: 1.2rem;
+    width: 20px;
+    text-align: center;
 }
 
-.movie-item {
-    background: white;
-    padding: 18px 20px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+.nav-item:hover:not(.active) {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    background-color: rgb(245, 130, 30);
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 20px 0;
+    border-top: 1px solid rgb(44, 52, 64);
+}
+
+.logout-btn {
+    color: #ff4757;
+}
+
+.logout-btn:hover {
+    color: white !important;
+    background-color: rgba(255, 71, 87, 0.2) !important;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 280px; 
+    padding: 40px 60px;
+    background-color: rgb(20, 24, 28);
+}
+
+.content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #eaeaea;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgb(51, 60, 70);
+    padding-bottom: 20px;
+}
+
+.page-title {
+    color: white;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.btn-add {
+    background-color: rgb(245, 130, 30);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: rgb(255, 145, 50);
+    transform: translateY(-2px);
+}
+
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.movie-item {
+    background-color: rgb(28, 34, 40);
+    padding: 20px 25px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgb(44, 52, 64);
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .movie-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    border-color: rgb(137, 154, 169);
 }
 
 .movie-info h3 {
-    margin: 0 0 6px 0;
-    color: #2c3e50;
+    margin: 0 0 8px 0;
+    color: white;
     font-size: 1.3rem;
 }
 
 .movie-info p {
     margin: 0;
-    color: #7f8c8d;
-    font-size: 1.1em;
+    color: rgb(137, 154, 169);
+    font-size: 1rem;
 }
 
 .movie-actions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .btn-edit {
-    background-color: #ffc107;
-    color: #212529;
-    padding: 6px 14px;
-    width: 80px;
-    height: 40px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-edit:hover {
-    background-color: #e0a800;
-    transform: translateY(-4px);
+    background-color: #f1c40f;
+    color: #111;
 }
 
 .btn-delete {
-    background-color: #dc3545;
+    background-color: #ff4757;
     color: white;
-    padding: 6px 14px;
-    width: 80px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.btn-delete:hover {
-    background-color: #c82333;
-    transform: translateY(-4px);
+.btn-edit:hover, .btn-delete:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
 }
 
 .modal {
@@ -201,89 +240,93 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: rgb(28, 34, 40);
+    border: 1px solid rgb(44, 52, 64);
     margin: 8% auto;
-    padding: 30px;
-    width: 400px;
+    padding: 35px;
+    width: 450px;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     animation: modalAppear 0.3s ease;
 }
 
 @keyframes modalAppear {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h2 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgb(51, 60, 70);
+    padding-bottom: 10px;
 }
 
 .close-btn {
     position: absolute;
-    right: 20px;
-    top: 15px;
+    right: 25px;
+    top: 25px;
     font-size: 26px;
     cursor: pointer;
-    color: #aaa;
+    color: rgb(137, 154, 169);
     transition: color 0.2s ease;
 }
 
 .close-btn:hover {
-    color: red;
+    color: #ff4757;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #444;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: rgb(137, 154, 169);
     font-size: 0.9rem;
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
+    padding: 12px 15px;
+    background-color: rgb(20, 24, 28);
+    border: 1px solid rgb(44, 52, 64);
     border-radius: 6px;
-    font-size: 15px;
-    box-sizing: border-box;
+    font-size: 1rem;
+    color: white;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-group input:focus {
-    border-color: #007bff;
+    border-color: rgb(245, 130, 30);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(245, 130, 30, 0.15);
 }
 
 .btn-save {
-    background-color: #28a745;
+    background-color: rgb(245, 130, 30);
     color: white;
-    padding: 12px;
+    padding: 14px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     width: 100%;
     font-size: 1rem;
-    font-weight: 600;
-    margin-top: 10px;
+    font-weight: bold;
+    margin-top: 20px;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .btn-save:hover {
-    background-color: #218838;
-    transform: translateY(-1px);
+    background-color: rgb(255, 145, 50);
+    transform: translateY(-2px);
 }

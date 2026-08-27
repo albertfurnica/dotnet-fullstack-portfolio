@@ -11,6 +11,9 @@ const container = document.getElementById("moviesGrid");
 const btnWatchlist = document.getElementById("btnWatchlist");
 const btnWatched = document.getElementById("btnWatched");
 const btnLogout = document.getElementById("btnLogout");
+const headerMain = document.getElementById("headerMain");
+const searchInput = document.getElementById("searchInput");
+const sortDropdown = document.getElementById("sortMovies");
 let allMovies = [];
 let isWatchedTab = false;
 
@@ -112,5 +115,21 @@ async function markWatched(id){
         console.error("Error:", error);
     }
 }
+
+searchInput.addEventListener("input", function(){
+    const query = searchInput.value.toLowerCase();
+    const movieCards = document.querySelectorAll(".movie-card");
+
+    movieCards.forEach(card => {
+        const titleElement = card.querySelector(".movie-title");
+        const titleText = titleElement.innerText.toLowerCase();
+
+        if(titleText.includes(query)){
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+});
 
 loadMovies();
