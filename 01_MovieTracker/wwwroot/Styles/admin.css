@@ -19,7 +19,7 @@ body {
 
 .admin-header {
     grid-column: 1 / 3;
-    background-color: black;
+    background-color: rgba(20, 24, 28, 0.95);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,8 +28,13 @@ body {
     z-index: 10;
 }
 
-.admin-header img {
-    height: 50px;
+.text-logo {
+    color: rgb(255, 120, 2);
+    font-family: 'Arial Black', Impact, sans-serif;
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -1px;
 }
 
 .admin-header h2 {
@@ -39,16 +44,18 @@ body {
 }
 
 .admin-header button {
-    background-color: #dc3545;
+    background-color: #ff0019;
     color: white;
-    padding: 8px 16px;
+    padding: 12px 20px;
     border-radius: 6px;
+    font-weight: bolder;
+    border: none;
     transition: background-color 0.2s ease, transform 0.1s ease;
     cursor: pointer;
 }
 
 .admin-header button:hover {
-    background-color: #c82333;
+    background-color: #7d020e;
     transform: translateY(-1px);
 }
 

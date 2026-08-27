@@ -63,9 +63,9 @@ public class UsersController(MovieDbContext context) : ControllerBase
         return Ok(new
         {
             Message = "Login succesful!",
-            IsAdmin = user.IsAdmin,
+            user.IsAdmin,
             UserId = user.Id,
-            FirstName = user.FirstName 
+            user.FirstName
     });
     }
 
@@ -74,7 +74,7 @@ public class UsersController(MovieDbContext context) : ControllerBase
     {
         if(id != updatedUser.Id)
         {
-            return BadRequest();
+            return BadRequest("ID mismatch");
         }
 
         var existingUser = await context.Users.FindAsync(id);
@@ -86,6 +86,7 @@ public class UsersController(MovieDbContext context) : ControllerBase
         existingUser.LastName = updatedUser.LastName;
         existingUser.FirstName = updatedUser.FirstName;
         existingUser.Email = updatedUser.Email;
+        existingUser.Password = updatedUser.Password;
         existingUser.IsAdmin = updatedUser.IsAdmin;
 
         await context.SaveChangesAsync();

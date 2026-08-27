@@ -1,7 +1,8 @@
 const API_URL_MOVIES = "http://localhost:5160/api/movies";
 const API_URL_USERS = "http://localhost:5160/api/users";
 const isAdmin = localStorage.getItem("isAdmin");
-let editId = null;
+let movieId = null;
+let userId = null;
 let currentView = "";
 const btnAdd = document.getElementById("btnAdd");
 const btnUsers = document.getElementById("btnUsers");
@@ -17,10 +18,11 @@ modalClose.addEventListener("click", function(){
     modal.style.display = "none";
 });
 
+/*
 if(isAdmin !== "true"){
     alert("Access is denied!");
     window.location.href = "home.html";
-}
+}*/
 
 btnUsers.addEventListener("click", async function() {
     btnMovies.classList.remove('active');
@@ -41,7 +43,8 @@ btnMovies.addEventListener("click", async function(){
 });
 
 btnAdd.addEventListener("click", function(){
-    editId = null;
+    userId = null;
+    movieId = null;
     modal.style.display = "inline-block";
 
     if(currentView === "users") {
@@ -51,12 +54,10 @@ btnAdd.addEventListener("click", function(){
                 <label>First Name:</label> 
                 <input type="text" id="addUserFirstName" required>
             </div>
-
             <div class="form-group">
                 <label>Last Name:</label>
                 <input type="text" id="addUserLastName" required>
             </div>
-
             <div class="form-group">
                 <label>Email:</label>
                 <input type="email" id="addUserEmail" required>
@@ -101,6 +102,7 @@ addForm.addEventListener("submit",
                 const email = document.getElementById("addUserEmail").value;
 
                 const userData = {
+                    id: userId ? userId : 0,
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
@@ -113,12 +115,30 @@ addForm.addEventListener("submit",
                     body: JSON.stringify(userData)
                 });
 
-                if(response.ok){
-                    alert("User successfully added!");
+                let userResponse;
+                let msgU;
+                if(userId !== null){
+                    msgU = "User edited successfully!";
+                    userResponse = await fetch(`${API_URL_USERS}/${userId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(userData)
+                    });
+                } else {
+                    msgU = "User added successfully!";
+                    userResponse = await fetch(API_URL_USERS, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(userData)
+                    });
+                }
+
+                if(userResponse.ok){
+                    alert(msgU);
                     modal.style.display = "none";
                     loadUsers();
                 } else {
-                    alert("Error: " + (await response.text()));
+                    alert("Error: " + (await userResponse.text()));
                 }
 
             } else if(currentView === "movies"){
@@ -129,7 +149,7 @@ addForm.addEventListener("submit",
                 const posterUrl = document.getElementById("addPosterUrl").value;
 
                 const movieData = {
-                    id: editId ? editId : 0,
+                    id: movieId ? movieId : 0,
                     title: title,
                     genre: genre,
                     releaseYear: parseInt(releaseYear),
@@ -138,30 +158,30 @@ addForm.addEventListener("submit",
                     posterUrl: posterUrl
                 };
 
-                let response;
+                let movieResponse;
                 let msg = "";
-                if(editId !== null){
+                if(movieId !== null){
                     msg = "Movie edited successfully!";
-                    response = await fetch(`${API_URL_MOVIES}/${editId}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(movieData)
+                    movieResponse = await fetch(`${API_URL_MOVIES}/${movieId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(movieData)
                     });
                 } else {
                     msg = "Movie added succesfully!";
                     response = await fetch(API_URL_MOVIES, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(movieData)
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(movieData)
                     });
                 }
 
-                if(response.ok){
+                if(movieResponse.ok){
                     alert(msg);
                     modal.style.display = "none";
                     loadMovies();
                 } else {
-                    alert("Error: " + (await response.text()));
+                    alert("Error: " + (await movieResponse.text()));
                 }
             }
         } catch (error) {
@@ -222,8 +242,8 @@ async function loadUsers()
                     <p>Id : ${user.id} | First Name : ${user.firstName} | Last Name : ${user.lastName} | Email : ${user.email} | Password : ${user.password}</p>
                 </div>
                 <div class="movie-actions">
-                    <button class="btn-edit">Edit</button>
-                    <button class="btn-delete">Delete</button>
+                    <button class="btn-edit" onclick="EditUser(${user.id}, '${user.firstName}', '${user.lastName}', '${user.email}')">Edit</button>
+                    <button class="btn-delete" onclick="DeleteUser(${user.id})">Delete</button>
                 </div>
             `;
             container.appendChild(card);
@@ -235,8 +255,44 @@ async function loadUsers()
 
 }
 
+window.EditUser = async function(id, firstName, lastName, email){
+    userId = id;
+    currentView = "users";
+
+    modal.style.display = "block";
+    modalTitle.innerText = "Edit User";
+
+    modalBody.innerHTML = `
+        <div class="form-group">
+            <label>First Name:</label> 
+            <input type="text" id="addUserFirstName" value="${firstName}" required>
+        </div>
+        <div class="form-group">
+            <label>Last Name:</label>
+            <input type="text" id="addUserLastName" value="${lastName}" required>
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="addUserEmail" value="${email}" required>
+        </div>
+    `;
+}
+
+window.DeleteUser = async function(id){
+    if (confirm("Are you sure you want to delete this movie?")) {
+        try {
+            await fetch(`${API_URL_USERS}/${id}`, {
+                method: "DELETE"
+            });
+            loadUsers();
+        } catch (error) {
+            console.error("Error deleting movie:", error);
+        }
+    }
+}
+
 window.EditMovie = async function(id, posterUrl, title, genre, year, rating) {
-    editId = id;
+    movieId = id;
     currentView = "movies";
     
     modal.style.display = "block";
@@ -266,7 +322,7 @@ window.EditMovie = async function(id, posterUrl, title, genre, year, rating) {
     `
 };
 
-async function deleteMovie(id) {
+window.deleteMovie = async function(id){
     if (confirm("Are you sure you want to delete this movie?")) {
         try {
             await fetch(`${API_URL_MOVIES}/${id}`, {

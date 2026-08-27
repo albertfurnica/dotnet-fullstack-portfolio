@@ -32,16 +32,17 @@ Content-Type: application/json
 DELETE {{HostAddress}}/api/movies/1
 
 ###
-PUT {{HostAddress}}/api/movies/7
+PUT {{HostAddress}}/api/users/7
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 7,
     "firstName": "apitest",
     "lastName": "testapi",
-    "email": "apiba",
-    "isAatched": true
+    "email": "apiba@gmail.com",
+    "password": "nebunulajokuri",
+    "isAdmin": true
 }
 
 ###
-DELETE {{HostAddress}}/api/movies/6
+DELETE {{HostAddress}}/api/users/7

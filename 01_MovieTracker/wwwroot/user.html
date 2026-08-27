@@ -5,11 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MovieTracker - My Films</title>
         <link rel="stylesheet" href="Styles/user.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <header class="user-header">
-            <img src="Photos/home_logo.jfif" alt="MovieTracker" class="header-logo">
-            <input type="search">Search</input>
+            <div class="text-logo">MOVIE<br>TRACKER</div>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..."></input>
+            </div>
             <div class="user-controls">
                 <H2>Welcome, <span id="userNameDisplay"></span>!</H2>
                 <a href="user_info.html" style="display: block">YOUR ACCOUNT</a>
@@ -26,6 +30,24 @@
                 
             </section>
         </main>
+
+        <footer class="home-footer">
+            <div class="footer-content">
+                    <a href="https://www.facebook.com/furnicaalbert112/" target="_blank">
+                        <i class="fa-brands fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/in/albert-leonard-furnica-b8b7143a0/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i> Linkedin
+                    </a>
+                    <a href="https://github.com/albertfurnica" target="_blank">
+                        <i class="fa-brands fa-github"></i> Github
+                    </a>
+                    <p class="footer-copyright">
+                        &copy; 2026 MovieTracker. Made for film lovers. 
+                        Inspired by <a href="https://letterboxd.com" target="_blank" class="footer-copyright">Letterboxd</a>.
+                    </p>
+            </div>
+        </footer>
     <script src="Scripts/user.js"></script>
     </body>
 </html>
