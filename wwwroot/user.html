@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MovieTracker - My Films</title>
+        <link rel="stylesheet" href="Styles/user.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+    <body>
+        <header class="user-header">
+            <div class="text-logo">MOVIE<br>TRACKER</div>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" id="searchInput" placeholder="Search..."></input>
+            </div>
+            <div class="user-controls">
+                <H2>Welcome, <span id="userNameDisplay"></span>!</H2>
+                <a href="user_info.html" style="display: block">YOUR ACCOUNT</a>
+                <button id="btnLogout">LOG OUT</button>
+            </div>
+        </header>
+        <main class="user-main">
+            <div class="view-filters">
+                <button class="filter-btn active" id="btnWatchlist">Watchlist(To Watch)</button>
+                <button class="filter-btn" id="btnWatched">Films Logged (Watched)</button>
+            </div>
+            <div class="sort-container">
+                    <label for="sortMovies"><i class="fa-solid fa-arrow-down-a-z"></i> Sort by:</label>
+                    <select id="sortMovies" class="sort-dropdown">
+                        <option value="title-asc">Title (A - Z)</option>
+                        <option value="title-desc">Title (Z - A)</option>
+                        <option value="year-desc">Year (Newest first)</option>
+                        <option value="year-asc">Year (Oldest first)</option>
+                        <option value="rating-desc">Rating (Highest first)</option>
+                        <option value="rating-asc">Rating (Lowest first)</option>
+                    </select>
+                </div>
+            <section class="movies-grid" id="moviesGrid">
+                
+            </section>
+        </main>
+        <footer class="home-footer">
+            <div class="footer-content">
+                    <a href="https://www.facebook.com/furnicaalbert112/" target="_blank">
+                        <i class="fa-brands fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/in/albert-leonard-furnica-b8b7143a0/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i> Linkedin
+                    </a>
+                    <a href="https://github.com/albertfurnica" target="_blank">
+                        <i class="fa-brands fa-github"></i> Github
+                    </a>
+                    <p class="footer-copyright">
+                        &copy; 2026 MovieTracker. Made for film lovers. 
+                        Inspired by <a href="https://letterboxd.com" target="_blank" class="footer-copyright">Letterboxd</a>.
+                    </p>
+            </div>
+        </footer>
+    <script src="Scripts/user.js"></script>
+    </body>
+</html>
