@@ -18,11 +18,11 @@ modalClose.addEventListener("click", function(){
     modal.style.display = "none";
 });
 
-/*
+
 if(isAdmin !== "true"){
     alert("Access is denied!");
     window.location.href = "home.html";
-}*/
+}
 
 btnUsers.addEventListener("click", async function() {
     btnMovies.classList.remove('active');

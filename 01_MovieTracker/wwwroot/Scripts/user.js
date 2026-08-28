@@ -28,9 +28,32 @@ async function loadMovies(){
     }
 }
 
+function sortMoviesArray(moviesArray, sortType) {
+    return moviesArray.sort((a, b) => {
+        switch(sortType){
+            case "title-asc":
+                return a.title.localeCompare(b.title);
+            case "title-desc":
+                return b.title.localeCompare(a.title);
+            case "year-desc":
+                return b.releaseYear - a.releaseYear;
+            case "year-asc":
+                return a.releaseYear - b.releaseYear;
+            case "rating-desc":
+                return (b.rating || 0) - (a.rating || 0);
+            case "rating-asc":
+                return (a.rating || 0) - (b.rating || 0);
+            default:
+                return 0;
+        }
+    });
+}
+
 function renderMovies(){
     container.innerHTML = "";
-    const filteredMovies = allMovies.filter(movie => movie.isWatched === isWatchedTab);
+    let filteredMovies = allMovies.filter(movie => movie.isWatched === isWatchedTab);
+
+    filteredMovies = sortMoviesArray(filteredMovies, sortDropdown.value);
 
     filteredMovies.forEach(movie => {
         let watchedStatus = "👁️ Mark as Watched";
@@ -62,6 +85,10 @@ function renderMovies(){
         });
 }
 
+sortDropdown.addEventListener("change", function(){
+    renderMovies();
+});
+
 btnWatchlist.addEventListener("click", function() {
     isWatchedTab = false;
     btnWatchlist.classList.add("active");
@@ -78,8 +105,8 @@ btnWatched.addEventListener("click", function() {
 
 btnLogout.addEventListener("click", function(){
     localStorage.clear();
-    window.location.href = "home.html";
     alert("Logged out successfully!");
+    window.location.href = "home.html";
 })
 
 async function markWatched(id){
@@ -124,11 +151,7 @@ searchInput.addEventListener("input", function(){
         const titleElement = card.querySelector(".movie-title");
         const titleText = titleElement.innerText.toLowerCase();
 
-        if(titleText.includes(query)){
-            card.style.display = "flex";
-        } else {
-            card.style.display = "none";
-        }
+        card.style.display = titleText.includes(query) ? "flex" : "none";
     });
 });
 
