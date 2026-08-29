@@ -39,9 +39,6 @@ btnSignIn.addEventListener("click", function(){
         <div class="form-group">
             <label>Introduce your password:</label>
             <input type="password" id="loginPassword" required>
-            <div  class="reset-password-container">
-                <a href="resetPassword.html" target="_blank">Forgot your password?</a>
-            </div>
         </div>
         <footer class="modal-footer">
             <button type="submit" class="btn-login">Login</button>

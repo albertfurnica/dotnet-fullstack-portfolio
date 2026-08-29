@@ -358,17 +358,6 @@ body{
     border-bottom: 2px solid rgb(245, 130, 30);
 }
 
-.reset-password-container {
-    text-align: right;
-    margin-top: 10px;
-}
-
-.reset-password-container a {
-    text-decoration: none;
-    color: rgb(245, 130, 30);
-    font-size: 0.95rem;
-}
-
 .btn-login {
     display: block;
     margin: 0px auto 10px auto;

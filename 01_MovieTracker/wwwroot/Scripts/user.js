@@ -34,6 +34,15 @@ btnWatched.addEventListener("click", function() {
     loadLocalMovies();
 })
 
+const tmdbGenreMap = {
+    28: "Action", 12: "Adventure", 16: "Animation", 35: "Comedy", 80: "Crime", 99: "Documentary", 18: "Drama", 10751: "Family", 14: "Fantasy", 36: "History", 27: "Horror", 10402: "Music", 9648: "Mystery", 10749: "Romance", 878: "Sci-Fi", 10770: "TV Movie", 53: "Thriller", 10752: "War", 37: "Western"
+};
+
+function getGenreNames(genreIds) {
+    if (!genreIds || genreIds.length === 0) return "General";
+    return genreIds.map(id => tmdbGenreMap[id]).filter(Boolean).slice(0, 2).join(", ");
+}
+
 async function loadLocalMovies(){
     try{
         const response = await fetch(API_URL_BASE);
@@ -50,9 +59,6 @@ function renderLocalMovies(movies){
     filteredMovies = sortMoviesArray(movies, sortDropdown.value);
 
     filteredMovies.forEach(movie => {
-        const imageSrc = movie.posterUrl ? movie.posterUrl : "Photos/home_logo.jfif";
-        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
-
         const cardWrapper = document.createElement("div");
         cardWrapper.className = "movie-card";
 
@@ -61,12 +67,16 @@ function renderLocalMovies(movies){
 
         const cardInfo = document.createElement("div");
         cardInfo.className = "card-info";
+
+        const imageSrc = movie.posterUrl ? movie.posterUrl : "Photos/home_logo.jfif";
+        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
+
         cardInfo.innerHTML = `
             <h3 class="movie-title">${movie.title}</h3>
             <span class="movie-year">${movie.releaseYear}</span>
             <p class="movie-genre">${movie.genre}</p>
             <p class="movie-rating">${movie.rating}/100</p>
-            <button class="btn-mark-watched" onclick="markWatched(${movie.id})">${watchedStatus}</button>
+            <button class="btn-mark-watched" onclick="deleteLocalMovie(${movie.id})" style="background: #e74c3c;">❌ Remove Film</button>
         `;
 
         cardWrapper.appendChild(cardPoster);
@@ -91,9 +101,6 @@ function renderTmdbMovies(tmdbMovies){
     tmdbMovies.forEach(movie => {
         const movieDataString = encodeURIComponent(JSON.stringify(movie));
 
-        const imageSrc = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "Photos/home_logo.jfif";
-        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
-
         const cardWrapper = document.createElement("div");
         cardWrapper.className = "movie-card";
 
@@ -102,11 +109,19 @@ function renderTmdbMovies(tmdbMovies){
 
         const cardInfo = document.createElement("div");
         cardInfo.className = "card-info";
+
+        const imageSrc = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "Photos/home_logo.jfif";
+        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
+
+        const releaseYear = movie.release_date ? movie.release_date.substring(0, 4) : "N/A";
+        const rating100 = Math.round((movie.vote_average || 0) * 10);
+        const genresText = getGenreNames(movie.genre_ids);
+
         cardInfo.innerHTML = `
             <h3 class="movie-title">${movie.title}</h3>
-            <span class="movie-year">${movie.releaseYear}</span>
-            <p class="movie-genre">${movie.genre}</p>
-            <p class="movie-rating">${movie.rating}/100</p>
+            <span class="movie-year">${releaseYear}</span>
+            <p class="movie-genre">${genresText}</p>
+            <p class="movie-rating">${rating100}/100</p>
             <button class="btn-mark-watched" onclick="saveToLocalDb('${movieDataString}')">➕ Add to My Films</button>
         `;
 
@@ -121,19 +136,34 @@ async function saveToLocalDb(encodedData){
 
     const newMovie = {
         title: tmdbMovie.title,
-        genre: "General",
-        releaseYear: tmdbMovie.releaseYear,
-        rating: tmdbMovie.rating,
+        genre: getGenreNames(tmdbMovie.genre_ids),
+        releaseYear: parseInt(tmdbMovie.release_date ? tmdbMovie.release_date.substring(0, 4) : 0),
+        rating: Math.round((tmdbMovie.vote_average || 0) * 10),
         isWatched: true,
         posterUrl: tmdbMovie.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbMovie.poster_path}` : ""
     }
 
-    await fetch(API_URL_BASE, {
+    try{
+        await fetch(API_URL_BASE, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(newMovie)
     });
-    alert(`"${newMovie.title}" was logged to your database!`);
+    if (response.ok) {
+            alert(`"${newMovie.title}" was logged to your database!`);
+        } else {
+            alert("Error saving movie!");
+    }
+    } catch(error){
+        console.error("Error saving movie:", error);
+    }
+}
+
+async function deleteLocalMovie(id) {
+    if(confirm("Are you sure you want to remove this movie?")) {
+        await fetch(`${API_URL_BASE}/${id}`, { method: "DELETE" });
+        loadLocalMovies();
+    }
 }
 
 searchInput.addEventListener("input", function(){
@@ -188,39 +218,5 @@ btnLogout.addEventListener("click", function(){
     localStorage.clear();
     window.location.href = "home.html";
 })
-
-async function markWatched(id){
-    const movieToUpdate = allMovies.find(movie => movie.id === id);
-    if(!movieToUpdate){
-        console.error("The movie was not find to edit!");
-        return;
-    }
-
-    const updatedMovie = {
-        id: movieToUpdate.id,
-        title: movieToUpdate.title,
-        genre: movieToUpdate.genre,
-        releaseYear: movieToUpdate.releaseYear,
-        rating: movieToUpdate.rating,
-        isWatched: !movieToUpdate.isWatched,
-        posterUrl: movieToUpdate.posterUrl
-    }
-
-    try{
-        const response = await fetch(`${API_URL_MOVIES}/${id}`,{
-            method: "PUT",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(updatedMovie)    
-        });
-
-        if(response.ok){
-            loadMovies();
-        } else {
-            alert("There is a problem updating movie's status!");
-        }
-    } catch(error){
-        console.error("Error:", error);
-    }
-}
 
 loadTmdbPopular();
