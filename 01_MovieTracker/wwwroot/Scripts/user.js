@@ -6,7 +6,7 @@ if (loggedInUser == null) {
     document.getElementById("userNameDisplay").innerText = loggedInUser;
 }
 
-const API_URL_MOVIES = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/movies";
+const API_URL_BASE = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/movies";
 const container = document.getElementById("moviesGrid");
 const btnWatchlist = document.getElementById("btnWatchlist");
 const btnWatched = document.getElementById("btnWatched");
@@ -14,19 +14,154 @@ const btnLogout = document.getElementById("btnLogout");
 const headerMain = document.getElementById("headerMain");
 const searchInput = document.getElementById("searchInput");
 const sortDropdown = document.getElementById("sortMovies");
-let allMovies = [];
-let isWatchedTab = false;
+let allLocalMovies = [];
+let isExploreMode = true;
+let searchTimeout = null;
 
-async function loadMovies(){
+btnExplore.addEventListener("click", function() {
+    isExploreMode = true;
+    btnExplore.classList.add("active");
+    btnWatched.classList.remove("active");
+    searchInput.value = "";
+    loadTmdbPopular();
+})
+
+btnWatched.addEventListener("click", function() {
+    isExploreMode = false;
+    btnWatched.classList.add("active");
+    btnExplore.classList.remove("active");
+    searchInput.value = "";
+    loadLocalMovies();
+})
+
+async function loadLocalMovies(){
     try{
-        const response = await fetch(API_URL_MOVIES);
-        allMovies = await response.json();
+        const response = await fetch(API_URL_BASE);
+        allLocalMovies = await response.json();
 
-        renderMovies();
+        renderLocalMovies(allLocalMovies);
     } catch(error){
         console.error("Error loading movies:", error);
     }
 }
+
+function renderLocalMovies(movies){
+    container.innerHTML = "";
+    filteredMovies = sortMoviesArray(movies, sortDropdown.value);
+
+    filteredMovies.forEach(movie => {
+        const imageSrc = movie.posterUrl ? movie.posterUrl : "Photos/home_logo.jfif";
+        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
+
+        const cardWrapper = document.createElement("div");
+        cardWrapper.className = "movie-card";
+
+        const cardPoster = document.createElement("div");
+        cardPoster.className = "card-poster";
+
+        const cardInfo = document.createElement("div");
+        cardInfo.className = "card-info";
+        cardInfo.innerHTML = `
+            <h3 class="movie-title">${movie.title}</h3>
+            <span class="movie-year">${movie.releaseYear}</span>
+            <p class="movie-genre">${movie.genre}</p>
+            <p class="movie-rating">${movie.rating}/100</p>
+            <button class="btn-mark-watched" onclick="markWatched(${movie.id})">${watchedStatus}</button>
+        `;
+
+        cardWrapper.appendChild(cardPoster);
+        cardWrapper.appendChild(cardInfo);
+        container.appendChild(cardWrapper);
+        });
+}
+
+async function loadTmdbPopular(){
+    try{
+        const response = await fetch(`${API_URL_BASE}/tmdb/popular`);
+        const data = await response.json();
+        renderTmdbMovies(data.results);
+    } catch (error) {
+        console.error("Erroar loading TMDB popular: ", error);
+    }
+}
+
+function renderTmdbMovies(tmdbMovies){
+    container.innerHTML = "";
+
+    tmdbMovies.forEach(movie => {
+        const movieDataString = encodeURIComponent(JSON.stringify(movie));
+
+        const imageSrc = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "Photos/home_logo.jfif";
+        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
+
+        const cardWrapper = document.createElement("div");
+        cardWrapper.className = "movie-card";
+
+        const cardPoster = document.createElement("div");
+        cardPoster.className = "card-poster";
+
+        const cardInfo = document.createElement("div");
+        cardInfo.className = "card-info";
+        cardInfo.innerHTML = `
+            <h3 class="movie-title">${movie.title}</h3>
+            <span class="movie-year">${movie.releaseYear}</span>
+            <p class="movie-genre">${movie.genre}</p>
+            <p class="movie-rating">${movie.rating}/100</p>
+            <button class="btn-mark-watched" onclick="saveToLocalDb('${movieDataString}')">➕ Add to My Films</button>
+        `;
+
+        cardWrapper.appendChild(cardPoster);
+        cardWrapper.appendChild(cardInfo);
+        container.appendChild(cardWrapper);
+    });
+}
+
+async function saveToLocalDb(encodedData){
+    const tmdbMovie = JSON.parse(decodeURIComponent(encodedData));
+
+    const newMovie = {
+        title: tmdbMovie.title,
+        genre: "General",
+        releaseYear: tmdbMovie.releaseYear,
+        rating: tmdbMovie.rating,
+        isWatched: true,
+        posterUrl: tmdbMovie.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbMovie.poster_path}` : ""
+    }
+
+    await fetch(API_URL_BASE, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(newMovie)
+    });
+    alert(`"${newMovie.title}" was logged to your database!`);
+}
+
+searchInput.addEventListener("input", function(){
+    const query = searchInput.value.toLowerCase();
+
+    if (isExploreMode) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(async () => {
+            if (query.length < 2) {
+                if(query.length === 0) loadTmdbPopular();
+                return; 
+            }
+            const response = await fetch(`${API_URL_BASE}/tmdb/search/${query}`);
+            const data = await response.json();
+            renderTmdbMovies(data.results);
+        }, 500);
+    } else {
+        const movieCards = document.querySelectorAll(".movie-card");
+        movieCards.forEach(card => {
+            const titleElement = card.querySelector(".movie-title");
+            card.style.display = titleElement.innerText.toLowerCase().includes(query) ? "flex" : "none";
+        });
+    }
+});
+
+sortDropdown.addEventListener("change", function(){
+    if(!isExploreMode) renderLocalMovies(allLocalMovies);
+});
 
 function sortMoviesArray(moviesArray, sortType) {
     return moviesArray.sort((a, b) => {
@@ -49,63 +184,8 @@ function sortMoviesArray(moviesArray, sortType) {
     });
 }
 
-function renderMovies(){
-    container.innerHTML = "";
-    let filteredMovies = allMovies.filter(movie => movie.isWatched === isWatchedTab);
-
-    filteredMovies = sortMoviesArray(filteredMovies, sortDropdown.value);
-
-    filteredMovies.forEach(movie => {
-        let watchedStatus = "👁️ Mark as Watched";
-        if (movie.isWatched === true) {
-            watchedStatus = "Watched ✔️";
-        }
-
-        const cardWrapper = document.createElement("div");
-        cardWrapper.className = "movie-card";
-
-        const cardPoster = document.createElement("div");
-        cardPoster.className = "card-poster"
-        const imageSrc = movie.posterUrl ? movie.posterUrl : "Photos/home_logo.jfif";
-        cardPoster.innerHTML = `<img src="${imageSrc}" alt="Poster ${movie.title}" class="poster-img">`;
-
-        const cardInfo = document.createElement("div");
-        cardInfo.className = "card-info"
-        cardInfo.innerHTML = `
-            <h3 class="movie-title">${movie.title}</h3>
-            <span class="movie-year">${movie.releaseYear}</span>
-            <p class="movie-genre">${movie.genre}</p>
-            <p class="movie-rating">${movie.rating}/100</p>
-            <button class="btn-mark-watched" onclick="markWatched(${movie.id})">${watchedStatus}</button>
-        `;
-
-        cardWrapper.appendChild(cardPoster);
-        cardWrapper.appendChild(cardInfo);
-        container.appendChild(cardWrapper);
-        });
-}
-
-sortDropdown.addEventListener("change", function(){
-    renderMovies();
-});
-
-btnWatchlist.addEventListener("click", function() {
-    isWatchedTab = false;
-    btnWatchlist.classList.add("active");
-    btnWatched.classList.remove("active");
-    renderMovies();
-})
-
-btnWatched.addEventListener("click", function() {
-    isWatchedTab = true;
-    btnWatched.classList.add("active");
-    btnWatchlist.classList.remove("active");
-    renderMovies();
-})
-
 btnLogout.addEventListener("click", function(){
     localStorage.clear();
-    alert("Logged out successfully!");
     window.location.href = "home.html";
 })
 
@@ -143,16 +223,4 @@ async function markWatched(id){
     }
 }
 
-searchInput.addEventListener("input", function(){
-    const query = searchInput.value.toLowerCase();
-    const movieCards = document.querySelectorAll(".movie-card");
-
-    movieCards.forEach(card => {
-        const titleElement = card.querySelector(".movie-title");
-        const titleText = titleElement.innerText.toLowerCase();
-
-        card.style.display = titleText.includes(query) ? "flex" : "none";
-    });
-});
-
-loadMovies();
+loadTmdbPopular();
