@@ -1,8 +1,8 @@
 localStorage.clear();
 
-const API_URL_MOVIES = "http://localhost:5160/api/movies";
-const API_URL_LOGIN = "http://localhost:5160/api/users/login";
-const API_URL_REGISTER = "http://localhost:5160/api/users/register";
+const API_URL_MOVIES = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/movies";
+const API_URL_LOGIN = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/login";
+const API_URL_REGISTER = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/register";
 
 const btnSignIn = document.getElementById("btnSignIn");
 const btnRegister = document.getElementById("btnRegister");

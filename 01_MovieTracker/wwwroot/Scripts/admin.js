@@ -1,5 +1,5 @@
-const API_URL_MOVIES = "http://localhost:5160/api/movies";
-const API_URL_USERS = "http://localhost:5160/api/users";
+const API_URL_MOVIES = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/movies";
+const API_URL_USERS = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/users";
 const isAdmin = localStorage.getItem("isAdmin");
 let movieId = null;
 let userId = null;

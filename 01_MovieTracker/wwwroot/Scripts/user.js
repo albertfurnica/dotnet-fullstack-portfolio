@@ -6,7 +6,7 @@ if (loggedInUser == null) {
     document.getElementById("userNameDisplay").innerText = loggedInUser;
 }
 
-const API_URL_MOVIES = "http://localhost:5160/api/movies";
+const API_URL_MOVIES = "https://albert-movietracker-api-h7g4dwc7ekgehefq.polandcentral-01.azurewebsites.net/api/movies";
 const container = document.getElementById("moviesGrid");
 const btnWatchlist = document.getElementById("btnWatchlist");
 const btnWatched = document.getElementById("btnWatched");
