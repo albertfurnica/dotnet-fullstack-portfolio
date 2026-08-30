@@ -137,6 +137,17 @@ body{
     margin-bottom: 0px;
 }
 
+.preview-section a{
+    display: inline-block;
+    color: rgb(137, 154, 169);
+    transition: transform 0.3s ease;
+}
+
+.preview-section a:hover{
+    transform: translateY(-5px);
+    color: white;
+}
+
 .preview-card{
     background-color: rgb(28, 34, 40);
     border-radius: 6px;
@@ -259,6 +270,7 @@ body{
 }
 
 .footer-copyright{
+    display: inline-block;
     flex-basis:100%;
     color: rgb(85, 102, 119);
     font-size: 0.8rem;
