@@ -2,6 +2,7 @@ body{
     margin: 0 auto;
     background-color: rgb(27, 31, 36);
     font-family: 'Inter', sans-serif;
+    color:#f8fafc;
 }
 
 /* HEADER */
@@ -20,21 +21,18 @@ body{
     align-items: center;
     max-width: 1200px;
 
-    a{
-        color:wheat;
-    }
-}
 
-.header-nav{
-    display: flex;
-    align-items: center;
-    
     a{
-        color:#f8fafc;
         font-size: 1.2rem;
         font-weight: 500;
         letter-spacing: 0.2px;
         padding-left: 32px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    a:hover{
+        transform: translateY(-5px);
     }
 
     button{
@@ -44,11 +42,21 @@ body{
         border: none;
         cursor: pointer;
         padding: 0;
+        transition: transform 0.3s ease;
 
-        span{
-            font-size: 1.9rem;
+        i{
+            font-size: 1.5rem;
         }
     }
+
+    button:hover{
+        transform: translateY(-5px);
+    }
+}
+
+.header-nav{
+    display: flex;
+    align-items: center; 
 }
 
 
@@ -60,23 +68,168 @@ body{
 
 .hero-section{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
     width: 1200px;
-    background-color: lightcoral;
 }
 
 .hero-title{
-    background-color: lightgreen;
+    text-align: center;
 }
 
 .hero-img{
-    background-color: lightblue;
+    text-align: center;
 }
 
 .hero-info{
-    background-color: lightsalmon;
-    
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .hero-info-about{
+        border-bottom: solid 3px rgb(77, 88, 102);
+        padding-bottom: 30px;
+
+        a{
+            display: inline-block;
+            position: relative;
+            color:#f8fafc;
+            text-decoration: none;
+            border-bottom: solid 2px #808080;
+            padding-bottom: 5px;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        a:hover{
+            transform: translateY(-5px);
+        }
+
+        a::after{
+            content: "";
+            background-color: #f8fafc;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            height: 2px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        a:hover::after{
+            width: 100%;
+        }
+    }
+
+    .hero-info-work{
+        border-bottom: solid 3px rgb(77, 88, 102);
+        padding-bottom: 30px;
+
+        a{
+            display: inline-block;
+            position: relative;
+            color:#f8fafc;
+            text-decoration: none;
+            border-bottom: solid 2px #808080;
+            padding-bottom: 5px;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        a:hover{
+            transform: translateY(-5px);
+        }
+
+        a::after{
+            content: "";
+            background-color: #f8fafc;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            height: 2px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        a:hover::after{
+            width: 100%;
+        }
+
+    }
+
+    .hero-info-contact{
+        a{
+            text-decoration: none;
+            color: #f8fafc;
+        }
+
+        i{
+            font-size: 2.5rem;
+            padding-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        i:hover{
+            
+            transform: translateY(-5px);
+        }
+    }
+}
+
+
+
+
+/* FOOTER */
+.footer-wrapper{
+    display: flex;
+    flex-direction: column;
+    border-top: solid 3px rgb(77, 88, 102);
+}
+
+.footer-top{
+
+    .footer-content{
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 1200px;
+        padding-bottom: 20px;
+
+        .footer-content-info{
+            text-align: left;
+            a{
+                text-decoration: none;
+                color: #f8fafc;
+            }
+
+            i{
+                font-size: 2.5rem;
+                padding-right: 15px;
+                transition: transform 0.3s ease;
+            }
+
+            i:hover{
+                
+                transform: translateY(-5px);
+            }
+        }
+
+        .footer-content-contact{
+            text-align: left;
+        }
+    }
+}
+
+.footer-bottom{
+    .footer-bottom-content{
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        border-top: solid 3px rgb(77, 88, 102)
+    }
 }
